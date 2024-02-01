@@ -1,0 +1,124 @@
+---
+title: "Day 2: Data Management, Statistical Analysis, and Visualization"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Day 2: Data Management, Statistical Analysis, and Visualization}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message = FALSE}
+library(RPG520)
+```
+
+# Data management
+
+
+```{r, message = FALSE}
+library(readr)
+library(dplyr)
+```
+
+```{r, include = FALSE}
+all_file <- system.file(package = "RPG520", "extdata", "ALL.csv")
+all <- read_csv(all_file)
+```
+
+```{r, eval = FALSE}
+all_file <- file.choose()
+all <- read_csv(all_file)
+```
+
+```{r}
+glimpse(all)
+```
+
+```{r}
+count(all, sex)
+```
+
+Introducing the 'pipe' `|>`
+
+```{r}
+all |>
+    count(sex)
+```
+
+```{r}
+all |>
+    filter(sex == "F") |>
+    count(mol.biol)
+```
+
+```{r}
+all |>
+    filter(!is.na(sex)) |>
+    count(sex, mol.biol)
+```
+
+```{r}
+all |>
+    filter(
+        !is.na(sex),
+        mol.biol %in% c("BCR/ABL", "NEG")
+    ) |>
+    count(sex, mol.biol) |>
+    tidyr::pivot_wider(names_from = "mol.biol", values_from = "n")
+```
+
+# Statistical analysis
+
+Summarization -- count, mean, variance
+
+```{r}
+all |>
+    filter(!is.na(age)) |>
+    summarize(n = n(), ave_age = mean(age))
+```
+
+```{r}
+all |>
+    filter(!is.na(age)) |>
+    group_by(sex) |>
+    summarize(n = n(), ave_age = mean(age))
+```
+
+Classical statistics -- t-tests, linear regression
+
+Survival analysis
+
+# Visualization
+
+```{r, message = FALSE}
+library(ggplot2)
+```
+
+```{r}
+all_subset <-
+    all |>
+    filter(
+        !is.na(age),
+        mol.biol %in% c("BCR/ABL", "NEG")
+    )
+```
+
+Box plot
+
+```{r}
+ggplot(all_subset) +
+    aes(x = sex, y = age) +
+    geom_boxplot()
+```
+
+Scatter plot
+
+Linear regression
+
+# Exercise

@@ -1,0 +1,124 @@
+---
+title: "Day 1: Introduction to the CCR, and to R"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Day 1: Introduction to the CCR, and to R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message = FALSE}
+library(RPG520)
+```
+
+# Connecting to the CCR
+
+# Essential R
+
+Variables
+
+```{r}
+1 + 2
+```
+
+```{r}
+pie <- "apple"
+pie
+```
+
+```{r}
+pi
+```
+
+Vectors
+
+```{r}
+1:3
+```
+
+```{r}
+id <- 1:3
+month <- c("Jan", "Feb", "Mar")
+sex <- factor(
+    c("Male", "Female", "Male"),
+    levels = c("Female", "Male")
+)
+```
+
+```{r}
+id > 1
+id[id > 1]
+```
+
+Special values -- `NA`
+
+```{r}
+age <- c(27, NA, 32)
+age > 27
+age[age > 27]
+```
+
+Functions
+
+```{r}
+sqrt(id)
+```
+
+The `data.frame`
+
+```{r}
+df <- data.frame(
+    id = id,
+    month = month,
+    sex = sex
+)
+```
+
+```{r}
+df[df$sex == "Male",]
+```
+
+Packages
+
+- CRAN -- more than 20,000 packages (!) <https://CRAN.R-project.org>
+  - Use `install.packages()` to install CRAN packages
+- Bioconductor -- 2266 packages for high-througput genomic data
+  analysis <https://bioconductor.org>
+  - First install [BiocManager][] from CRAN, then use
+    `BiocManager::install()` to install Bioconductor packages.
+
+[BiocManager]: https://CRAN.R-project.org/package=BiocManager
+
+# 'Tidy' data
+
+```{r, message = FALSE}
+library(readr)
+library(dplyr)
+```
+
+```{r, include = FALSE}
+all_file <- system.file(package = "RPG520", "extdata", "ALL.csv")
+all <- read_csv(all_file)
+```
+
+```{r, eval = FALSE}
+all_file <- file.choose()
+all <- read_csv(all_file)
+```
+
+```{r}
+all
+```
+
+```{r}
+glimpse(all)
+```
+
+# Exercise

@@ -1,0 +1,22 @@
+Package: RPG520
+Title: Course Material: Principles of Computational Oncology
+Version: 0.0.0.9000
+Authors@R: c(
+    person(
+        "Martin", "Morgan", role = c("aut", "cre"),
+        email = "mtmorgan.xyz@gmail.com",
+        comment = c(ORCID = "0000-0002-5874-8148")
+    ))
+Description: Course material for a workshop offered as part of Roswell
+    Park Comprehensive Cancer Center 2024 graduate course "Principles
+    of Computational Oncology".
+License: Artistic-2.0
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.0
+Config/Needs/website: rmarkdown
+Suggests:
+    readr, dplyr, tidyr, ggplot2
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

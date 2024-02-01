@@ -1,0 +1,30 @@
+---
+title: "Day 3: High-throughput Genomic Analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Day 3: High-throughput Genomic Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message = FALSE}
+library(RPG520)
+library(cellxgenedp)
+library(zellkonverter)
+library(SingleCellExperiment)
+```
+
+# Case study: single-cell RNAseq
+
+# Data representations
+
+# From CELLxGENE to UMAP
+
+# Exercise
