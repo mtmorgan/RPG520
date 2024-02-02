@@ -20,3 +20,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: https://mtmorgan.github.io/RPG520/
