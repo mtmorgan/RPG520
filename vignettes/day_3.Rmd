@@ -17,8 +17,8 @@ knitr::opts_chunk$set(
 ```{r setup, message = FALSE}
 library(RPG520)
 library(cellxgenedp)
-library(zellkonverter)
-library(SingleCellExperiment)
+## library(zellkonverter)
+## library(SingleCellExperiment)
 ```
 
 # Case study: single-cell RNAseq
