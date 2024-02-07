@@ -6,12 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="RPG520">
-<title>Day 2: Data Management, Statistical Analysis, and Visualization • RPG520</title>
+<title>Day 2: Data Management, Visualization, and Analysis • RPG520</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Day 2: Data Management, Statistical Analysis, and Visualization">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Day 2: Data Management, Visualization, and Analysis">
 <meta property="og:description" content="RPG520">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -42,7 +42,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/day_1.html">Day 1: Introduction to the CCR, and to R</a>
-    <a class="dropdown-item" href="../articles/day_2.html">Day 2: Data Management, Statistical Analysis, and Visualization</a>
+    <a class="dropdown-item" href="../articles/day_2.html">Day 2: Data Management, Visualization, and Analysis</a>
     <a class="dropdown-item" href="../articles/day_3.html">Day 3: High-throughput Genomic Analysis</a>
     <a class="dropdown-item" href="../articles/z_appendix.html">Appendix</a>
   </div>
@@ -71,7 +71,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>Day 2: Data Management, Statistical Analysis, and Visualization</h1>
+      <img src="" class="logo" alt=""><h1>Day 2: Data Management, Visualization, and Analysis</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/mtmorgan/RPG520/blob/HEAD/vignettes/day_2.Rmd" class="external-link"><code>vignettes/day_2.Rmd</code></a></small>
@@ -104,7 +104,7 @@ effective way to accomplish many tasks.</p>
 <li>
 <code><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select()</a></code> – select a subset of columns.</li>
 <li>
-<code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code> – change or add columns. ‘Vectorized’.</li>
+<code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code> – change or add columns.</li>
 </ul>
 <p>Example functions to summarize data:</p>
 <ul>
@@ -247,7 +247,7 @@ code like the following:</p>
 <h3 id="data-exploration">Data exploration<a class="anchor" aria-label="anchor" href="#data-exploration"></a>
 </h3>
 <p>A good place to start with an analysis is basic data exploration.
-Perhaps the most straigth-forward thing to do is count the number of
+Perhaps the most straight-forward thing to do is count the number of
 observations in each year.</p>
 <div class="section level4">
 <h4 id="count">Count<a class="anchor" aria-label="anchor" href="#count"></a>
@@ -260,7 +260,7 @@ observations in each year.</p>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1990  <span style="text-decoration: underline;">10</span>000</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2010  <span style="text-decoration: underline;">10</span>000</span></span></code></pre></div>
-<p>The data has been choosen so that each year has the same number of
+<p>The data has been chosen so that each year has the same number of
 individuals. What about the number of females and males in each year?
 This is determined by responses to the survey, reflecting the relative
 number of males and females in the population, or at least responding to
@@ -373,20 +373,20 @@ summaries by Sex and Year</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Female 2010     57.1   73.0   163.</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Male   1990     43.9   81.2   178.</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Male   2010     56.2   88.8   178.</span></span></code></pre></div>
-<p>This shows some interesting aspects of the data. Males are on aveage
+<p>This shows some interesting aspects of the data. Males are on average
 15cm taller than females; there is no difference in average height
 between years.</p>
 <p>The average age of both Female and Male respondents is greater in
 2010 than in 1990. This likely reflects changing demographics, as the
 ‘baby boom’ cohort ages. Note that the average Female age changes by
-about 10.9 years, wheras the average Male age changes by about 12.3
-years; perhaps this reflects different life expectancies of males and
+about 10.9 years, whereas the average Male age changes by about 12.3
+years; perhaps this reflects different life expectancy of males and
 females.</p>
 <p>Also interesting is that the average weight changes, by about 8.2 kg
-(18 lbs) for Female respondenents, 7.6 kg (16.7 lbs) for Males. This
-could be because people in general have become heavier, or that older
-people are heavier than younger people (or for other reasons not
-captured in the data).</p>
+(18 lbs) for Female respondents, 7.6 kg (16.7 lbs) for Males. This could
+be because people in general have become heavier, or that older people
+are heavier than younger people (or for other reasons not captured in
+the data).</p>
 </div>
 <div class="section level4">
 <h4 id="filter">Filter<a class="anchor" aria-label="anchor" href="#filter"></a>
@@ -435,9 +435,9 @@ geometric relationship between the x and y aesthetics. One geom is
 <span><span class="co">#&gt; Warning: Removed 395 rows containing non-finite values</span></span>
 <span><span class="co">#&gt; (`stat_boxplot()`).</span></span></code></pre></div>
 <p><img src="day_2_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
-<p>The bar in the figure is the median weigth, the box represents upper
-and lower quartiles of the data, the whiskers extend to 1.5 times the
-interquartile range. Points outside the whiskers represent potential
+<p>The bar in the figure is the median weight, the box represents upper
+and lower quartile of the data, the whiskers extend to 1.5 times the
+inter-quartile range. Points outside the whiskers represent potential
 outliers. The figure shows the difference in Female and Male weights, as
 well as a skew in the weight distribution of both Female and Male
 respondents.</p>
@@ -448,7 +448,7 @@ respondents.</p>
 <p>Presumably taller people are heavier than shorter people. Replace
 ‘Sex’ with ‘Height’ in <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes()</a></code>, and replace
 <code><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot()</a></code> with <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point()</a></code> to generate a
-scatterplot showing this relationship</p>
+scatter plot showing this relationship</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">brfss_2010</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Height</span>, y <span class="op">=</span> <span class="va">Weight</span><span class="op">)</span> <span class="op">+</span></span>
@@ -576,7 +576,7 @@ whether assumptions of the <em>t</em>-test are fully satisfied, e.g.,
 the data are supposed to be normally distributed, but as we saw in the
 box plots weights are skewed. We could try to transform the data (formal
 approaches to assess appropriateness of data transformations are
-available), e.g., by using the square root (<code><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt()</a></code> of
+available), e.g., by using the square root (<code><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt()</a></code>) of
 Weight</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">t.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">Weight</span><span class="op">)</span> <span class="op">~</span> <span class="va">Year</span>, <span class="va">brfss_male</span><span class="op">)</span></span>
@@ -591,7 +591,7 @@ Weight</p>
 <span><span class="co">#&gt; sample estimates:</span></span>
 <span><span class="co">#&gt; mean in group 1990 mean in group 2010 </span></span>
 <span><span class="co">#&gt;           8.980087           9.378139</span></span></code></pre></div>
-<p>Or we might use a statistic like the Wilcoxon test that make fewer
+<p>Or we might use a statistic like the Wilcoxon test that makes fewer
 assumptions about the underlying statistical distribution.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/wilcox.test.html" class="external-link">wilcox.test</a></span><span class="op">(</span><span class="va">Weight</span> <span class="op">~</span> <span class="va">Year</span>, <span class="va">brfss_male</span><span class="op">)</span></span>
@@ -602,23 +602,35 @@ assumptions about the underlying statistical distribution.</p>
 <span><span class="co">#&gt; W = 5754766, p-value &lt; 2.2e-16</span></span>
 <span><span class="co">#&gt; alternative hypothesis: true location shift is not equal to 0</span></span></code></pre></div>
 <p>Regardless of the details of the analysis, the difference in Male
-Weight between 1990 and 2010 is highly signficant.</p>
+Weight between 1990 and 2010 is highly significant.</p>
 </div>
 <div class="section level4">
 <h4 id="linear-regression">Linear regression<a class="anchor" aria-label="anchor" href="#linear-regression"></a>
 </h4>
-<p>The ‘BRFSS Male Subset’ figure above shows linear relations between
-the square root of Weight and Height. How would we calculate this
-regression, and assess its significance?</p>
-<p>The answer is to fit a linear regression to the data. In <em>R</em>,
-this is done by fitting a linear model (<code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code>) and then
-summarizing the result. We focus on Male 2010 data.</p>
+<p>The ‘BRFSS Male Subset’ figure shows linear relations between the
+square root of Weight and Height in each year.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">brfss_male</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Height</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">Weight</span><span class="op">)</span>, color <span class="op">=</span> <span class="va">Year</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"BRFSS Male Subset"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `geom_smooth()` using formula = 'y ~ x'</span></span>
+<span><span class="co">#&gt; Warning: Removed 104 rows containing non-finite values</span></span>
+<span><span class="co">#&gt; (`stat_smooth()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 104 rows containing missing values (`geom_point()`).</span></span></code></pre></div>
+<p><img src="day_2_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
+<p>How would we calculate this regression, and assess its significance?
+We focus on Male 2010 data.</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">brfss_male_2010</span> <span class="op">&lt;-</span></span>
 <span>    <span class="va">brfss_male</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">==</span> <span class="st">"2010"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">## fit the linear model</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">==</span> <span class="st">"2010"</span><span class="op">)</span></span></code></pre></div>
+<p>The answer is to fit a linear regression to the data. In <em>R</em>,
+this is done by fitting a linear model (<code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code>) and then
+summarizing the result.</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## fit the linear model</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">Weight</span><span class="op">)</span> <span class="op">~</span> <span class="va">Height</span>, <span class="va">brfss_male_2010</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## summarize the fit, including a statistical assessment of the fit</span></span>
@@ -686,13 +698,13 @@ seen date patient was last seen</p>
 <h3 id="data-input-1">Data input<a class="anchor" aria-label="anchor" href="#data-input-1"></a>
 </h3>
 <p>What is a ‘csv’ file?</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.choose.html" class="external-link">file.choose</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="va">all_file</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">all</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 128</span></span>
 <span><span class="co">#&gt; Columns: 21</span></span>
@@ -721,7 +733,7 @@ seen date patient was last seen</p>
 <div class="section level3">
 <h3 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h3>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">all</span>, <span class="va">sex</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
 <span><span class="co">#&gt;   sex       n</span></span>
@@ -733,7 +745,7 @@ seen date patient was last seen</p>
 together using a pipe, <code>|&gt;</code>. The result of the left-hand
 side of the pipe becomes the first argument of the function on the
 right-hand side.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
@@ -745,7 +757,7 @@ right-hand side.</p>
 <p>‘Tidy’ functions can usually be piped together. Use
 <code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter()</a></code> to keep only rows that are not <code>NA</code>,
 then count <code>mol.biol</code> on this subset of the data.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">mol.biol</span><span class="op">)</span></span>
@@ -760,7 +772,7 @@ then count <code>mol.biol</code> on this subset of the data.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> p15/p16      1</span></span></code></pre></div>
 <p>Many ‘tidy’ functions can take more than one argument, e.g., to
 filter and count on <code>sex</code> and <code>mol.biol</code>…</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span></span>
 <span>        <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>,</span>
@@ -778,7 +790,7 @@ filter and count on <code>sex</code> and <code>mol.biol</code>…</p>
 new columns from the <code>mol.biol</code> column, and values from the
 <code>n</code> (count) column. This pivoted table is often useful for
 displaying results, but not so useful for subsequent computation.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span></span>
 <span>        <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>,</span>
@@ -794,7 +806,7 @@ displaying results, but not so useful for subsequent computation.</p>
 <p>Use <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code> to update or add a column, e.g., the
 <code>BT</code> column classifies each sample as B-cell or T-cell
 ALL</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">BT</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 2</span></span></span>
@@ -820,7 +832,7 @@ argument, and a prefix string as the second argument.
 <code><a href="https://rdrr.io/r/base/startsWith.html" class="external-link">startsWith()</a></code> returns <code>TRUE</code> for each value of
 the vector that matches the prefix, and <code>FALSE</code>
 otherwise.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"B1"</span>, <span class="st">"T"</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/startsWith.html" class="external-link">startsWith</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"B"</span><span class="op">)</span></span>
 <span><span class="va">y</span></span>
@@ -831,18 +843,18 @@ otherwise.</p>
 argument, a value to return ifan elemment of the logical vector is
 <code>TRUE</code> for the second argument, and similarly for the thrid
 argument.</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">y</span>, <span class="st">"B"</span>, <span class="st">"T"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "B" "B" "T"</span></span></code></pre></div>
 <p>In one line, this is</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/startsWith.html" class="external-link">startsWith</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"B"</span><span class="op">)</span>, <span class="st">"B"</span>, <span class="st">"T"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "B" "B" "T"</span></span></code></pre></div>
 </li>
 </ul>
 <p>Use these with the tidy function <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code> to create a
 new column <code>BorT</code></p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>BorT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/startsWith.html" class="external-link">startsWith</a></span><span class="op">(</span><span class="va">BT</span>, <span class="st">"B"</span><span class="op">)</span>, <span class="st">"B"</span>, <span class="st">"T"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">BT</span>, <span class="va">BorT</span><span class="op">)</span></span>
@@ -863,7 +875,7 @@ new column <code>BorT</code></p>
 creating an <code>all_subset</code> tibble containing only samples whose
 sex is known, and who are BCR/ABL or NEG; it also contains only some of
 the columns.</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all_subset</span> <span class="op">&lt;-</span></span>
 <span>    <span class="co">## start with the 'all' tibble...</span></span>
 <span>    <span class="va">all</span> <span class="op">|&gt;</span></span>
@@ -905,7 +917,7 @@ the columns.</p>
 </h2>
 <p>Descriptive statistics (count, mean, variance, etc.) can be
 calculated using <code><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize()</a></code>.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all_subset</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, ave_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
@@ -914,7 +926,7 @@ calculated using <code><a href="https://dplyr.tidyverse.org/reference/summarise.
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   107    32.2</span></span></code></pre></div>
 <p>Summarizing by groups is often important and easily accomplished
 using <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by()</a></code>.</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all_subset</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, ave_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span><span class="op">)</span></span>
@@ -927,7 +939,7 @@ using <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class=
 <h3 id="classical-statistics-base-r">Classical statistics (base <em>R</em>)<a class="anchor" aria-label="anchor" href="#classical-statistics-base-r"></a>
 </h3>
 <p>t-test</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">t.test</a></span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">sex</span>, <span class="va">all_subset</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  Welch Two Sample t-test</span></span>
@@ -941,7 +953,7 @@ using <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class=
 <span><span class="co">#&gt; mean in group F mean in group M </span></span>
 <span><span class="co">#&gt;        34.77143        30.90278</span></span></code></pre></div>
 <p>Chi-squared test</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all_subset</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">BorT</span>, <span class="va">sex</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="st">"BorT"</span>, values_from <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span>
@@ -950,7 +962,7 @@ using <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class=
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> F        28     7</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> M        48    24</span></span></code></pre></div>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">all_subset</span>, <span class="fu"><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test</a></span><span class="op">(</span><span class="va">sex</span>, <span class="va">BorT</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  Pearson's Chi-squared test with Yates' continuity correction</span></span>
@@ -963,15 +975,15 @@ using <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class=
 <div class="section level2">
 <h2 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
 </h2>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
 <p>Box plot</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">all_subset</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sex</span>, y <span class="op">=</span> <span class="va">age</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">.25</span><span class="op">)</span></span></code></pre></div>
-<p><img src="day_2_files/figure-html/unnamed-chunk-56-1.png" width="700"></p>
+<p><img src="day_2_files/figure-html/unnamed-chunk-58-1.png" width="700"></p>
 <p>Scatter plot</p>
 <p>Linear regression</p>
 </div>
@@ -980,7 +992,7 @@ using <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class=
 </h2>
 <p>For reproducibility, I record the software versions used to create
 this document</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; R version 4.3.2 (2023-10-31)</span></span>
 <span><span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
