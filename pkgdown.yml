@@ -5,7 +5,8 @@ articles:
   day_1: day_1.html
   day_2: day_2.html
   day_3: day_3.html
-last_built: 2024-02-05T17:01Z
+  z_appendix: z_appendix.html
+last_built: 2024-02-07T20:14Z
 urls:
   reference: https://mtmorgan.github.io/RPG520/reference
   article: https://mtmorgan.github.io/RPG520/articles
