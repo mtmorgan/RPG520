@@ -1,8 +1,8 @@
 ---
-title: "Day 2: Data Management, Statistical Analysis, and Visualization"
+title: "Day 2: Data Management, Visualization, and Analysis"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Day 2: Data Management, Statistical Analysis, and Visualization}
+  %\VignetteIndexEntry{Day 2: Data Management, Visualization, and Analysis}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -40,7 +40,7 @@ Functions for 'tidy' data management include:
 
 - `filter()` -- filter data to contain specific rows.
 - `select()` -- select a subset of columns.
-- `mutate()` -- change or add columns. 'Vectorized'.
+- `mutate()` -- change or add columns.
 
 Example functions to summarize data:
 
@@ -157,7 +157,7 @@ brfss <-
 ## Data exploration
 
 A good place to start with an analysis is basic data
-exploration. Perhaps the most straigth-forward thing to do is count
+exploration. Perhaps the most straight-forward thing to do is count
 the number of observations in each year.
 
 ### Count
@@ -167,7 +167,7 @@ brfss |>
     count(Year)
 ```
 
-The data has been choosen so that each year has the same number of
+The data has been chosen so that each year has the same number of
 individuals. What about the number of females and males in each year?
 This is determined by responses to the survey, reflecting the relative
 number of males and females in the population, or at least responding
@@ -264,18 +264,18 @@ brfss |>
     )
 ```
 
-This shows some interesting aspects of the data. Males are on aveage
+This shows some interesting aspects of the data. Males are on average
 15cm taller than females; there is no difference in average height
 between years.
 
 The average age of both Female and Male respondents is greater in 2010
 than in 1990. This likely reflects changing demographics, as the 'baby
 boom' cohort ages. Note that the average Female age changes by about
-10.9 years, wheras the average Male age changes by about 12.3 years;
-perhaps this reflects different life expectancies of males and females.
+10.9 years, whereas the average Male age changes by about 12.3 years;
+perhaps this reflects different life expectancy of males and females.
 
 Also interesting is that the average weight changes, by about 8.2 kg
-(18 lbs) for Female respondenents, 7.6 kg (16.7 lbs) for Males. This
+(18 lbs) for Female respondents, 7.6 kg (16.7 lbs) for Males. This
 could be because people in general have become heavier, or that older
 people are heavier than younger people (or for other reasons not
 captured in the data).
@@ -333,9 +333,9 @@ ggplot(brfss_2010) +
     geom_boxplot()
 ```
 
-The bar in the figure is the median weigth, the box represents upper
-and lower quartiles of the data, the whiskers extend to 1.5 times the
-interquartile range. Points outside the whiskers represent potential
+The bar in the figure is the median weight, the box represents upper
+and lower quartile of the data, the whiskers extend to 1.5 times the
+inter-quartile range. Points outside the whiskers represent potential
 outliers. The figure shows the difference in Female and Male weights,
 as well as a skew in the weight distribution of both Female and Male
 respondents.
@@ -344,7 +344,7 @@ respondents.
 
 Presumably taller people are heavier than shorter people. Replace
 'Sex' with 'Height' in `aes()`, and replace `geom_boxplot()` with
-`geom_point()` to generate a scatterplot showing this relationship
+`geom_point()` to generate a scatter plot showing this relationship
 
 ```{r}
 ggplot(brfss_2010) +
@@ -451,13 +451,13 @@ assumptions of the *t*-test are fully satisfied, e.g., the data are
 supposed to be normally distributed, but as we saw in the box plots
 weights are skewed. We could try to transform the data (formal
 approaches to assess appropriateness of data transformations are
-available), e.g., by using the square root (`sqrt()` of Weight
+available), e.g., by using the square root (`sqrt()`) of Weight
 
 ```{r}
 t.test(sqrt(Weight) ~ Year, brfss_male)
 ```
 
-Or we might use a statistic like the Wilcoxon test that make fewer
+Or we might use a statistic like the Wilcoxon test that makes fewer
 assumptions about the underlying statistical distribution.
 
 ```{r}
@@ -465,23 +465,35 @@ wilcox.test(Weight ~ Year, brfss_male)
 ```
 
 Regardless of the details of the analysis, the difference in Male
-Weight between 1990 and 2010 is highly signficant.
+Weight between 1990 and 2010 is highly significant.
 
 ### Linear regression
 
-The 'BRFSS Male Subset' figure above shows linear relations between
-the square root of Weight and Height. How would we calculate this
-regression, and assess its significance?
+The 'BRFSS Male Subset' figure shows linear relations between the
+square root of Weight and Height in each year.
 
-The answer is to fit a linear regression to the data. In *R*, this is
-done by fitting a linear model (`lm()`) and then summarizing the
-result. We focus on Male 2010 data.
+```{r}
+ggplot(brfss_male) +
+    aes(x = Height, y = sqrt(Weight), color = Year) +
+    geom_point() +
+    geom_smooth(method = "lm") +
+    labs(title = "BRFSS Male Subset")
+```
+
+How would we calculate this regression, and assess its significance?
+We focus on Male 2010 data.
 
 ```{r}
 brfss_male_2010 <-
     brfss_male |>
     filter(Year == "2010")
+```
 
+The answer is to fit a linear regression to the data. In *R*, this is
+done by fitting a linear model (`lm()`) and then summarizing the
+result. 
+
+```{r}
 ## fit the linear model
 fit <- lm(sqrt(Weight) ~ Height, brfss_male_2010)
 
