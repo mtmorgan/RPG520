@@ -27,4 +27,12 @@ library(cellxgenedp)
 
 # From CELLxGENE to UMAP
 
-# Exercise
+# Session information {.unnumbered}
+
+For reproducibility, I record the software versions used to create
+this document
+
+```{r}
+sessionInfo()
+```
+

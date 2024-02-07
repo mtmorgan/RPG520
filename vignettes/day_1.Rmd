@@ -10,7 +10,7 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "##"
 )
 ```
 
@@ -20,72 +20,132 @@ library(RPG520)
 
 # Connecting to the CCR
 
-# Essential R
+# Essential *R*
 
-Variables
+A simple calculator
 
 ```{r}
-1 + 2
+1 + 1
 ```
 
+'Vectors' as building blocks
+
 ```{r}
-pie <- "apple"
-pie
+c(1, 2, 3)
+c("January", "February", "March")
+c(TRUE, FALSE)
 ```
 
-```{r}
-pi
-```
-
-Vectors
+Variables, missing values and 'factors'
 
 ```{r}
-1:3
-```
-
-```{r}
-id <- 1:3
-month <- c("Jan", "Feb", "Mar")
-sex <- factor(
-    c("Male", "Female", "Male"),
-    levels = c("Female", "Male")
+age <- c(27, NA, 32, 29)
+gender <- factor(
+    c("Female", "Male", "Non-binary", NA),
+    levels = c("Female", "Male", "Non-binary")
 )
 ```
 
-```{r}
-id > 1
-id[id > 1]
-```
-
-Special values -- `NA`
+Data structures to coordinate related vectors -- the `data.frame`
 
 ```{r}
-age <- c(27, NA, 32)
-age > 27
-age[age > 27]
+df <- data.frame(
+    age = c(27, NA, 32, 29),
+    gender = gender
+)
+df
 ```
+
+Key operations on `data.frame`
+
+- `df[1:3, c("gender", "age")]` -- subset on rows and columns
+- `df[["age"]]`, `df$age` -- select columns
 
 Functions
 
 ```{r}
-sqrt(id)
+rnorm(5)        # 5 random normal deviates
+x <- rnorm(100) # 100 random normal deviates
+hist(x)         # histogram, approximately normal
+plot(density(x)) # a little more sophisticated?
 ```
 
-The `data.frame`
+'Vectorized' operations, e.g., element-wise addition without an
+explicit 'for' loop. The following creates a vector `y` by
+element-wise addition of the 100 elements of vector `x` with 100
+random normal deviates.
 
 ```{r}
-df <- data.frame(
-    id = id,
-    month = month,
-    sex = sex
-)
+y <- x + rnorm(100)
 ```
+
+`x` and `y` are related, so place them as columns in a
+`data.frame()`. There are 100 rows in the `data.frame()`, `head()`
+shows the first 6 rows.
 
 ```{r}
-df[df$sex == "Male",]
+df <- data.frame(x, y)
+nrow(df)
+head(df)
 ```
 
-Packages
+There is a statistical relationship between `y` and `x`, specifically,
+`y` is equal to `x` plus some random noise. Visualize this using
+`plot()`.
+
+```{r, fig.asp = 1}
+plot(y ~ x, df)
+```
+
+It looks like a linear relationship; can we demonstrate this
+statistically? Use the `lm()` function to fit a *l*inear *m*odel to
+the relationship between `y` and `x`:
+
+```{r}
+fit <- lm(y ~ x, df)
+fit           # an R 'object' containing information about the
+              # regression of y on x
+summary(fit)  # statistical summary of linear regression
+```
+
+What about adding the regression line to the scatter plot? Do this by
+plotting the points, and then adding `abline()` to add the straight
+line implied by the linear model fit.
+
+```{r, fig.asp = 1}
+plot(y ~ x, df)
+abline(lm(y ~ x, df))
+```
+
+## A little more advanced...
+
+Write your own functions
+
+```{r}
+hello <- function(who) {
+    paste("hello", who, "with", nchar(who), "letters in your name")
+}
+hello("Martin")
+```
+
+Iterate, usually with `lapply()` although `for()` is available
+
+```{r}
+names <- c("Martin", "Thomas")
+lapply(names, hello)
+```
+
+# Packages
+
+Packages extend functionality of base _R_. Can be part of the 'base'
+distribution (`lm()` is from the 'stats' package)...
+
+```{r}
+stats::lm(y ~ x)
+```
+
+... or a package contributed by users to the Comprehensive R Archive
+Network ([CRAN][]), or to [Bioconductor][] or other repositories.
 
 - CRAN -- more than 20,000 packages (!) <https://CRAN.R-project.org>
   - Use `install.packages()` to install CRAN packages
@@ -94,31 +154,145 @@ Packages
   - First install [BiocManager][] from CRAN, then use
     `BiocManager::install()` to install Bioconductor packages.
 
+[CRAN]: https://CRAN.R-project.org
+[Bioconductor]: https://bioconductor.org
 [BiocManager]: https://CRAN.R-project.org/package=BiocManager
 
-# 'Tidy' data
+A particularly common suite of packages is the 'tidyverse'.  To use
+the [dplyr][] contributed CRAN package, load the package
 
 ```{r, message = FALSE}
-library(readr)
 library(dplyr)
 ```
 
-```{r, include = FALSE}
-all_file <- system.file(package = "RPG520", "extdata", "ALL.csv")
-all <- read_csv(all_file)
-```
-
-```{r, eval = FALSE}
-all_file <- file.choose()
-all <- read_csv(all_file)
-```
+A dplyr 'tibble' is like a 'data.frame', but more user-friendly
 
 ```{r}
-all
+tbl <- tibble(
+    x = rnorm(100),
+    y = x + rnorm(100)
+)
+
+tbl # e.g., only displays the first 10 rows
 ```
+
+The [ggplot2][] package is often used for visualizing data
+
+```{r, message = FALSE}
+library(ggplot2)
+```
+
+[ggplot2][] uses a 'grammar of graphics' to assemble a plot in layers
+
+```{r, fig.asp = 1}
+ggplot(tbl) +                    # use 'tbl' as a source of data for the plot
+    aes(x, y) +                  # use columns 'x' and 'y' for axes
+    geom_point() +               # add x and y coordinates as points
+    geom_smooth(method = "lm")   # add a regression line
+```
+
+[dplyr]: https://CRAN.R-project.org/package=dplyr
+[ggplot2]: https://CRAN.R-project.org/package=ggplot2
+
+# Learning *R*
+
+Help
+
+- Every function has a help page, e.g.,
+
+    ```{r, eval = FALSE}
+    ?data.frame
+    ```
+
+    - Sections with 'Description', 'Usage', 'Arguments' (often with
+      defaults), 'Value', 'Examples'
+    - Can be quite difficult to follow, but are usually quite helpful.
+
+Vignettes
+
+- Many packages have 'vignettes' that illustrate how the package can
+  be used.
+
+    ```{r, eval = FALSE}
+    vignette(package = "dplyr")
+    ## Vignettes in package 'dplyr':
+    ##
+    ## colwise                 Column-wise operations (source, html)
+    ## base                    dplyr <-> base R (source, html)
+    ## grouping                Grouped data (source, html)
+    ## dplyr                   Introduction to dplyr (source, html)
+    ## programming             Programming with dplyr (source, html)
+    ## rowwise                 Row-wise operations (source, html)
+    ## two-table               Two-table verbs (source, html)
+    ## in-packages             Using dplyr in packages (source, html)
+    ## window-functions        Window functions (source, html)
+
+    vignette(package = "dplyr", "dplyr")
+    ```
+
+Books
+
+- [Hands-on Programming with R][hopr] introduces *R* programming.
+  [The Very Basics][hopr-basics] provides an elementary starting
+  point.
+- [R for Data Science][r4ds] is a book-length web spanning with both
+  introductory and more advanced topics. One of the authors, Hadley
+  Wickham, is the author of the [dplyr][] and [ggplot2][] packages,
+  among others.
+
+Web resources
+
+- Google can be a great place to find general *R* resource, e.g., 'how
+  to do survival analysis in *R*'
+- [StackOverflow][] is useful for trouble-shooting particular problems
+  -- 'I try to fit a linear model with `lm(mgp ~ cyl, mtcars)` but *R*
+  says ..., what am I doing wrong?'.
+- ChatGPT & friends can also be useful, especially if asking
+  well-focused questions or, e.g., asked to 'explain the following *R*
+  code' to help understand code someone else has written. I have
+  almost always disagreed with the specific code ChatGPT generates;
+  sometimes it simply does not work (e.g., use the package 'X', but
+  'X' is not a package), but more dangerous are the situations where
+  code is syntactically correct but provides the wrong answer. Use,
+  but with extreme care!
+
+[hopr]: https://rstudio-education.github.io/hopr/
+[hopr-basics]: https://rstudio-education.github.io/hopr/basics.html
+[r4ds]: https://r4ds.hadley.nz/
+[StackOverflow]: https://stackoverflow.com/questions/tagged/r
+
+# Grading for this week
+
+The task for this week is to write an *R* script that performs data
+management and statistical analysis of a data set of your choice --
+essentially reproducing selected steps in the work that we will do on
+Wednesday.
+
+You will provide me (on the CCR server) with a file 'your_name.R'. I
+will run the file in a new *R* session using the command
+`source('your_name.R', echo = TRUE)`. This will read and evaluate each
+*R* command in the file.
+
+Grading will be out of 10, with the following thresholds
+
+- 7 / 10 if `source('your_name.R', echo = TRUE)` works without error.
+- 8 / 10 for scripts that implement more extensive analyses, or that
+  present interesting or complicated data.
+- up to 10 / 10 for work that goes beyond the material we cover this
+  week, e.g., using 'Rmarkdown' to present your work, performing
+  additional (and appropriate) data manipulation steps using dplyr or
+  other packages, additional visualizations or statstical analyses.
+
+Note that the 7 / 10 score could be obtained by copying & pasting (a
+subset of) the commands from Wednesday's lab into
+'your_name.R'. Please feel free to contact or speak with me if you
+have problems or ideas.
+
+# Session information {.unnumbered}
+
+For reproducibility, I record the software versions used to create
+this document
 
 ```{r}
-glimpse(all)
+sessionInfo()
 ```
-
-# Exercise

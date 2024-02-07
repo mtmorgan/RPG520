@@ -1,0 +1,169 @@
+---
+title: "Appendix"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Appendix}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##"
+)
+```
+
+# Installation
+
+## *R*
+
+Install *R* for your operating system from the Comprehensive *R*
+Archive Network [CRAN][]. The box at the top of the page has links for
+Linux, macOS, and Windows.
+
+On Windows, see the link [install *R* for the first
+time][CRAN-windows]. The link will download an installer that can be
+double-clicked. Install as a regular user, not as a system
+administrator.
+
+On macOS, use the 'R-4.3.2-arm64.pkg' installer for newer (M1 / M2
+macOS) and 'R-4.3.2-x86_64.pkg' for Intel macs.
+
+Linux systems can of course be more complicated; follow the links for
+your operating system.
+
+[CRAN]: http://CRAN.R-project.org/
+[CRAN-windows]: https://CRAN.R-project.org/bin/windows/base/
+
+## *RStudio*
+
+It is possible to use *R* without using *RStudio* (this is how I
+usually use *R*, for instance), but many people use the open-source
+version of *RStudio*. Download the open-source version of [RStudio
+Desktop][RStudio] from Posit, the company that produces *RStudio*.
+
+[RStudio]: https://posit.co/download/rstudio-desktop/
+
+# Packages
+
+If you are installing *R* on your own laptop for the purposes of this
+course, you'll need to install the packages that we use.  *R* on the
+CCR has many packages pre-installed. But there are more than 20,000
+packages in CRAN and Bioconductor, so at some point you will need a
+package that is not installed.
+
+Follow this general approach. Note that packages only need to be
+installed *once*; once installed, they can then be used in separate
+*R* sessions using `library()` or the `pkg::function()` notation.
+
+## CRAN package installation
+
+Start by creating a vector of packages to install. For this workshop,
+we used the following packages.
+
+```{r}
+pkgs <- c("readr", "dplyr", "tidyr", "ggplot2")
+```
+
+Use `setdiff()` (remove from the vector in the first argument all
+elements that occur in the vector in the second argument) so that only
+packages that are not currently installed remain.
+
+```{r}
+pkgs <- setdiff(pkgs, rownames(installed.packages()))
+```
+
+Finally, using the function `install.packages()` to install the
+required packages from a central CRAN repository.
+
+```{r, eval = FALSE}
+install.packages(pkgs, repos = "https://CRAN.R-project.org")
+```
+
+## Bioconductor packages
+
+[Bioconductor][] packages require a slightly different installation
+procedure. Make sure that you have the [BiocManager][] package
+installed from CRAN
+
+```{r, eval = FALSE}
+pkgs <- "BiocManager"
+pkgs <- setdiff(pkgs, rownames(installed.packages()))
+install.packages(pkgs, repos = "https://CRAN.R-project.org")
+```
+
+Then install [Bioconductor][] (and CRAN) packages as needed
+
+```{r, eval = FALSE}
+pkgs <- c(
+    "cellxgenedp", # Bioconductor package
+    "Seurat"       # CRAN package
+)
+pkgs <- setdiff(pkgs, rownames(installed.packages()))
+BiocManager::install(pkgs)
+```
+
+## Updating packages
+
+`install.packages()` and `BiocManager::install()` report packages that
+are out-of-date because a newer version is available. Usually it is a
+good idea to be using the most recent version available. There are two
+situations when you might wish to continue using older packages.
+
+- A tight deadline (e.g., thesis defense, paper submission). Updating
+  packages can sometimes introduce changes that break existing code,
+  and it can be time consuming to track these down.
+
+- Reproducibility. Packages sometimes introduce changes that result in
+  (hopefully slightly) different outcomes, perhaps because the
+  packages adopts a newer algorithm. This might not be desireable,
+  e.g., when a paper has been submitted and the reviewer says 'this is
+  excellent expect ...' it requires a minor addition to the orginal
+  analysis, but when you try and reproduce your original analysis it
+  is no longer possible because of changes in the underlying software.
+
+  There are a number of strategies for taking a 'snapshot' of software
+  versions used in a particular analysis (e.g.,, the [renv][]
+  package), and if you become serious about using *R* it is very
+  valuable to explore these resources *before* you need to reproduce
+  them.
+
+## FAQ: binary or source packages?
+
+On Windows and macOS, one might sometimes see a message that indicates
+a 'binary' package is available, but the 'source' package is more
+recent. Almost always the best response is to stay with the 'binary'
+package -- the more-recent 'source' package will likely be made
+available in a short time frame (within a week), and if not indicates
+that the package is difficult to install even by the wizards at CRAN
+-- mere mortals like you and I will have to become very proficient to
+install Windows or macOS packages from source.
+
+[Bioconductor]: https://bioconductor.org/packages
+[renv]: https://rstudio.github.io/renv/index.html
+
+# Data used in this workshop
+
+Datasets used in this workshop are available on the CCR. They can also
+be accessed on the internet. The URL for each dataset is the
+`base_url` pasted before the file name used in this document. Thus the
+ALL dataset is available at
+
+```{r}
+base_url <-
+    "https://raw.githubusercontent.com/mtmorgan/RPG520/main/inst/extdata/"
+ALL_url <- paste0(base_url, "ALL.csv")
+```
+
+It can be read directly into *R*
+
+```{r, eval = FALSE}
+all <- readr::read_csv(ALL_url)
+```
+
+Or downloaded to disk for easy re-use
+
+```{r, eval = FALSE}
+download.file(ALL_url, "ALL.csv")
+```

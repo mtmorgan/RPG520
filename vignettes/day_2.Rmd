@@ -18,8 +18,531 @@ knitr::opts_chunk$set(
 library(RPG520)
 ```
 
-# Data management
+# Overview
 
+We use two case studies today. The studies are used to illustrate the
+data manipulation and statistical analysis tasks that one might expect
+in day-to-day wet- or dry-lab work in computational oncology.
+
+We will use functions from the [dplyr][] package to manage our
+data. [dplyr][] is is a key package in a particular approach to data
+management in *R* called the 'tidyverse'. Tidy analysis uses a
+standard data structure (a `tibble`) and relatively small number
+functions to provide an effective way to accomplish many tasks.
+
+Start by loading the [dplyr][] package.
+
+```{r, message = FALSE}
+library(dplyr)
+```
+
+Functions for 'tidy' data management include:
+
+- `filter()` -- filter data to contain specific rows.
+- `select()` -- select a subset of columns.
+- `mutate()` -- change or add columns. 'Vectorized'.
+
+Example functions to summarize data:
+
+- `count()` -- simple count of entries in each column.
+- `summarize()` -- e.g., `mean()` or `var()`iance of one or more columns.
+- `group_by()` -- summarize data by group.
+
+[tidyr][] and other packages complement basic functionality
+
+- `tidyr::pivot_wider()` -- change a 'long' table to a 'wide'
+  table. See example below.
+
+We will use the [readr][] package to read data from disk into *R*.
+
+[tidyr][] and [readr][] are used less commonly, so we do not load them
+into our *R* session yet.
+
+For visualization, we use [ggplot2][]; details are provided below.
+
+Finally, for statistical functions we use the 'stats' package
+distributed with *R*.
+
+[dplyr]: https://CRAN.R-project.org/package=dplyr
+[tidyr]: https://CRAN.R-project.org/package=tidyr
+[readr]: https://CRAN.R-project.org/package=readr
+[ggplot2]: https://CRAN.R-project.org/package=ggplot2
+
+# US CDC Behavioral Risk Factor Surveillance System survey data
+
+We use data from the US Center for Disease Control's Behavioral Risk
+Factor Surveillance System ([BRFSS][]) annual survey. Check out the
+web page for a little more information. We are using a small subset of
+this data, including a random sample of 20000 observations from each
+of 1990 and 2010.
+
+## Data input
+
+Use `file.choose()` to find the 'BRFSS-subset.csv' file on the CCR file
+system.
+
+```{r, echo = FALSE}
+brfss_file_path <- system.file(package = "RPG520", "extdata", "BRFSS-subset.csv")
+```
+
+```{r, eval = FALSE}
+brfss_file_path <- file.choose() # look for 'Rpg520/week-04/extdata/BRFSS-subset.csv'
+```
+
+Take a peak at the data using the `readLines()` function to read the
+first 3 lines of data, and `cat("\n")` to print the result to the terminal
+
+```{r}
+readLines(brfss_file_path, 3) |>
+    cat(sep = "\n")
+```
+
+The file is a 'comma-separated value' file. These files can be created
+by, for instance, using Excel's 'Export' menu. The first line consists
+of column headers, separated by a comma. Subsequent lines represent
+rows of data, again with a comma separating columns.
+
+Read the entire dataset into *R* with the command
+`readr::read_csv()`. Assign the data to a variable `brfss`.
+
+```{r}
+brfss <- readr::read_csv(brfss_file_path)
+brfss
+```
+
+[BRFSS]: http://www.cdc.gov/brfss/
+
+## Initial cleaning
+
+The data are pretty simple, but two small changes will make it more
+useful. Both 'Sex' and 'Year' are really `factor` values (each can
+only take on specific levels, 'Female' and 'Male' for 'Sex', and
+'1990' and '2010' for 'Year').
+
+### Mutate
+
+A factor can be created from an ordinary vector `x` with code like the
+following:
+
+```{r}
+x <- c("Male", "Female", "Female", NA)
+factor(x, levels = c("Female", "Male"))
+
+y <- c(2010, 1991, 1990, NA)
+factor(y, levels = c("1990", "2010"))
+```
+
+Use the dplyr `mutate()` function to change 'Sex' and 'Year' to
+factors.
+
+```{r}
+brfss |>
+    mutate(
+        Sex = factor(Sex, levels = c("Female", "Male")),
+        Year = factor(Year, levels = c("1990", "2010"))
+    )
+```
+
+That looks like it's working, save the updated data set
+
+```{r}
+brfss <-
+    brfss |>
+    mutate(
+        Sex = factor(Sex, levels = c("Female", "Male")),
+        Year = factor(Year, levels = c("1990", "2010"))
+    )
+```
+
+## Data exploration
+
+A good place to start with an analysis is basic data
+exploration. Perhaps the most straigth-forward thing to do is count
+the number of observations in each year.
+
+### Count
+
+```{r}
+brfss |>
+    count(Year)
+```
+
+The data has been choosen so that each year has the same number of
+individuals. What about the number of females and males in each year?
+This is determined by responses to the survey, reflecting the relative
+number of males and females in the population, or at least responding
+to the survey.
+
+```{r}
+brfss |>
+    count(Sex)
+```
+
+What about the number of each sex in each year? Use `count()` with two
+(or more) column names
+
+```{r}
+brfss |>
+    count(Sex, Year)
+```
+
+It seems like there are more Female respondents in 2010 than
+in 1990. Use [tidyr][]'s function `pivot_wider()` (remember to look at
+the help page `?pivot_wider` for details on how this function works)
+to pivot the 'Sex' column entries to column names.
+
+```{r}
+brfss |>
+    count(Sex, Year) |>
+    tidyr::pivot_wider(names_from = "Sex", values_from = "n")
+```
+
+### Summarize
+
+We used `tidyr::pivot_wider()` instead of just `pivot_wider()`. This
+notation means 'use the [tidyr][] package, and a function in that
+package called `pivot_wider()`. This notation to avoid conflicts if
+two packages have a function named `pivot_wider()`; it also has
+additional benefits related to managing *R*'s `.GlobalEnv`, but that
+is a more advanced topic.
+
+Use `summarize()` for summaries more complicated than simple counts
+
+```{r}
+brfss |>
+    summarize(
+        avg_age = mean(Age, na.rm = TRUE),
+        ave_wt = mean(Weight, na.rm = TRUE),
+        ave_ht = mean(Height, na.rm = TRUE)
+    )
+```
+
+Nothing too exciting here, except to perhaps note the use of metric
+system Weight (kg) and Height (cm).
+
+The function `mean()` calculates the average of the corresponding
+column. `na.rm = TRUE` tells the function to remove `NA` (missing)
+values before calculating the mean. This is kind of
+interesting. Suppose one had a vector and calculated the mean
+
+```{r}
+x <- c(1, 3, 5)
+mean(x)
+```
+
+No surprises. What if one of the values in `x` were missing? The logic
+used by *R* is that the missing value could be *any* number, so the
+mean could be *anything* -- if there's an unknown value, then the mean
+must also be unknown!
+
+```{r}
+x <- c(1, 3, NA)
+mean(x)
+```
+
+Often we would like to calculate the mean after removing the unknown
+values, and this is what the `na.rm = TRUE` argument does
+
+```{r}
+mean(x, na.rm = TRUE)
+```
+
+### Group
+
+Back to our data exploration, we might expect the average age, weight,
+and height to be different between Female and Male respondents, and
+perhaps also between years. Use `group_by()` to calculate summaries by
+Sex and Year
+
+```{r}
+brfss |>
+    group_by(Sex, Year) |>
+    summarize(
+        avg_age = mean(Age, na.rm = TRUE),
+        ave_wt = mean(Weight, na.rm = TRUE),
+        ave_ht = mean(Height, na.rm = TRUE)
+    )
+```
+
+This shows some interesting aspects of the data. Males are on aveage
+15cm taller than females; there is no difference in average height
+between years.
+
+The average age of both Female and Male respondents is greater in 2010
+than in 1990. This likely reflects changing demographics, as the 'baby
+boom' cohort ages. Note that the average Female age changes by about
+10.9 years, wheras the average Male age changes by about 12.3 years;
+perhaps this reflects different life expectancies of males and females.
+
+Also interesting is that the average weight changes, by about 8.2 kg
+(18 lbs) for Female respondenents, 7.6 kg (16.7 lbs) for Males. This
+could be because people in general have become heavier, or that older
+people are heavier than younger people (or for other reasons not
+captured in the data).
+
+### Filter
+
+Use `filter()` to create a subset of the data containing only 2010
+respondents, and another subset containing only Male respondents.
+
+```{r}
+brfss_2010 <-
+    brfss |>
+    filter(Year == "2010")
+
+brfss_male <-
+    brfss |>
+    filter(Sex == "Male")
+```
+
+## Visual exploration
+
+We will use the [ggplot2][] package to visually explore our data. We
+use several functions from this package, so load it into our *R*
+session.
+
+```{r}
+library(ggplot2)
+```
+
+[ggplot2][] constructs plots by adding layers. Layers have different
+roles. The plot starts with the specification of the data set to be
+plotted...
+
+### Aesthetics & geometries: box plot
+
+```{r, eval = FALSE}
+ggplot(brfss_2010)
+```
+
+...and then *adds* the 'aesthetics' (columns to be used for X and Y
+axes, how to color points, etc)
+
+```{r, eval = FALSE}
+ggplot(brfss_2010) +
+    aes(x = Sex, y = Weight)
+```
+
+...and finally one or more 'geometries' ('geom') that describe the
+geometric relationship between the x and y aesthetics. One geom is
+`geom_boxplot()`, which draws a box-and-whiskers plot.
+
+```{r}
+ggplot(brfss_2010) +
+    aes(x = Sex, y = Weight) +
+    geom_boxplot()
+```
+
+The bar in the figure is the median weigth, the box represents upper
+and lower quartiles of the data, the whiskers extend to 1.5 times the
+interquartile range. Points outside the whiskers represent potential
+outliers. The figure shows the difference in Female and Male weights,
+as well as a skew in the weight distribution of both Female and Male
+respondents.
+
+### Scatter plots
+
+Presumably taller people are heavier than shorter people. Replace
+'Sex' with 'Height' in `aes()`, and replace `geom_boxplot()` with
+`geom_point()` to generate a scatterplot showing this relationship
+
+```{r}
+ggplot(brfss_2010) +
+    aes(x = Height, y = Weight) +
+    geom_point()
+```
+
+Yes there looks like a relationship. Add `geom_smooth(method = "lm")`
+to fit a smoothed relationship to the points; `method = "lm"`
+indicates that the smoothed line should be a linear regression.
+
+```{r}
+ggplot(brfss_2010) +
+    aes(x = Height, y = Weight) +
+    geom_point() +
+    geom_smooth(method = "lm")
+```
+
+The relationship between height and weight likely depends on sex. Add
+`color = Sex` to the `aes()` argument, so each geom (both points and
+smoothed line) is colored by Sex.
+
+```{r}
+ggplot(brfss_2010) +
+    aes(x = Height, y = Weight, color = Sex) +
+    geom_point() +
+    geom_smooth(method = "lm")
+```
+
+The lines cover the range of values for each sex; the relationship
+between height and weight appears slightly steeper for males than
+females.
+
+Has the relationship between height and weight of males changed
+between 1990 and 2010? Change the dataset to `brfss_male`, color by
+`Year`, and add a title to the plot so that we know a little bit more
+about the relationship. Also, explore a data transformation by using
+the square root (function `sqrt()`) of weight
+
+```{r}
+ggplot(brfss_male) +
+    aes(x = Height, y = sqrt(Weight), color = Year) +
+    geom_point() +
+    geom_smooth(method = "lm") +
+    labs(title = "BRFSS Male Subset")
+```
+
+The figure suggests that 2010 males are heavier than 1990 males at all
+heights, and hints that the relationship between weight and height is
+steeper in 2010; a formal statistical analysis is required for further
+confidence.
+
+## Statistical analysis
+
+This section illustrates basic statistical tests; it would be
+interesting to sit down with a statistician to discuss the subtleties
+of a more correct analysis.
+
+### Difference between groups
+
+Here is a partial summary of the `brfss_2010` data subset
+
+```{r}
+brfss_2010 |>
+    group_by(Sex) |>
+    summarize(
+        n = n(),
+        ave_age = mean(Age, na.rm = TRUE),
+        ave_wt = mean(Weight, na.rm = TRUE),
+        ave_ht = mean(Height, na.rm = TRUE)
+    )
+```
+
+Is there statistical support for the small difference between average
+ages of Female and Male respondents?
+
+Use `t.test()` to compare two groups. After studying the help page
+`?t.test`, we use the 'formula' notation to test for differences in
+Age as a function of Sex, `Age ~ Sex`, using the subset `brfss_2010`
+as the data source.
+
+```{r, echo = FALSE}
+t <- t.test(Age ~ Sex, brfss_2010)
+```
+
+```{r}
+t.test(Age ~ Sex, brfss_2010)
+```
+
+The summary reports (at the bottom) mean ages of Male and Female
+respondents consistent with our own calculations, so we know we have
+not made some kind of serious blunder in formulating the test. The
+*t*-statistic of `r t$statistic`, with P-value `r t$p.value` is
+significant.
+
+What about differences in Male Weight between 1990 and 2010?
+
+```{r}
+t.test(Weight ~ Year, brfss_male)
+```
+
+Conversation with a statistician might make us concerned about whether
+assumptions of the *t*-test are fully satisfied, e.g., the data are
+supposed to be normally distributed, but as we saw in the box plots
+weights are skewed. We could try to transform the data (formal
+approaches to assess appropriateness of data transformations are
+available), e.g., by using the square root (`sqrt()` of Weight
+
+```{r}
+t.test(sqrt(Weight) ~ Year, brfss_male)
+```
+
+Or we might use a statistic like the Wilcoxon test that make fewer
+assumptions about the underlying statistical distribution.
+
+```{r}
+wilcox.test(Weight ~ Year, brfss_male)
+```
+
+Regardless of the details of the analysis, the difference in Male
+Weight between 1990 and 2010 is highly signficant.
+
+### Linear regression
+
+The 'BRFSS Male Subset' figure above shows linear relations between
+the square root of Weight and Height. How would we calculate this
+regression, and assess its significance?
+
+The answer is to fit a linear regression to the data. In *R*, this is
+done by fitting a linear model (`lm()`) and then summarizing the
+result. We focus on Male 2010 data.
+
+```{r}
+brfss_male_2010 <-
+    brfss_male |>
+    filter(Year == "2010")
+
+## fit the linear model
+fit <- lm(sqrt(Weight) ~ Height, brfss_male_2010)
+
+## summarize the fit, including a statistical assessment of the fit
+summary(fit)
+```
+
+The ANOVA table shows that the relationship is highly significant. The
+'Adjusted R-squared' value indicates that about 17% of the variation in
+Weight is accounted for by Height. The estimated coefficient
+associated with Height is the slope of the line, indicating that the
+square root of Weight increases by about `r fit$coefficients[2]` for
+every increase in Height of 1 cm.
+
+As an aside, one might hope that `plot(fit)` would plot the regression
+line. Actually, it creates a series of diagnostic plots that help us
+assess the appropriateness of our choice of a linear model for
+describing this data.
+
+More advanced analysis using *R* to test, e.g., for differences in the
+intercept or slope of the regression in 1990 versus 2010 are
+straight-forward to implement, but require more sophisticated
+statistical understanding.
+
+# Acute Lymphocytic Leukemia
+
+This data set is from an old microarray experiment investigating acute
+lymphocytic leukemia (ALL) (PMID [14684422][], [16243790][]; the data
+has been extracted from the [ALL][] *Bioconductor* package).  We focus
+on phenotypes of 128 patients.
+
+ 1 cod            Patient ID
+ 2 diagnosis      Date of diagnosis
+ 3 sex            Gender of the patient
+ 4 age            Age of the patient at entry
+ 5 BT             does the patient have B-cell or T-cell ALL
+ 6 remission      Complete remission(CR), refractory(REF) or NA. Derived from CR
+ 7 CR             Original remisson data
+ 8 date.cr        Date complete remission if achieved
+ 9 t(4;11)        did the patient have t(4;11) translocation. Derived from citog
+10 t(9;22)        did the patient have t(9;22) translocation. Derived from citog
+11 cyto.normal    Was cytogenetic test normal? Derived from citog
+12 citog          original citogenetics data, deletions or t(4;11), t(9;22) sta…
+13 mol.biol       molecular biology
+14 fusion protein which of p190, p210 or p190/210 for bcr/able
+15 mdr            multi-drug resistant
+16 kinet          ploidy: either diploid or hyperd.
+17 ccr            Continuous complete remission? Derived from f.u
+18 relapse        Relapse? Derived from f.u
+19 transplant     did the patient receive a bone marrow transplant? Derived fro…
+20 f.u            follow up data available
+21 date last seen date patient was last seen
+
+
+[14684422]: https://doi.org/10.1182/blood-2003-09-3243
+[16243790]: https://doi.org/10.1158/1078-0432.ccr-04-2165
+[ALL]: https://bioconductor.org/packages/ALL
+
+## Data input
+
+What is a 'csv' file?
 
 ```{r, message = FALSE}
 library(readr)
@@ -40,28 +563,49 @@ all <- read_csv(all_file)
 glimpse(all)
 ```
 
+
+## Examples
+
 ```{r}
 count(all, sex)
 ```
 
-Introducing the 'pipe' `|>`
+Data management often involves several steps. Chain the steps together
+using a pipe, `|>`. The result of the left-hand side of the pipe
+becomes the first argument of the function on the right-hand side.
 
 ```{r}
 all |>
     count(sex)
 ```
 
-```{r}
-all |>
-    filter(sex == "F") |>
-    count(mol.biol)
-```
+'Tidy' functions can usually be piped together. Use `filter()` to keep
+only rows that are not `NA`, then count `mol.biol` on this subset of
+the data.
 
 ```{r}
 all |>
     filter(!is.na(sex)) |>
+    count(mol.biol)
+```
+
+Many 'tidy' functions can take more than one argument, e.g., to filter
+and count on `sex` and `mol.biol`...
+
+```{r}
+all |>
+    filter(
+        !is.na(sex),
+        mol.biol %in% c("BCR/ABL", "NEG")
+    ) |>
     count(sex, mol.biol)
 ```
+
+The following illustrates `pivot_wider`, taking names for new columns
+from the `mol.biol` column, and values from the `n` (count)
+column. This pivoted table is often useful for displaying results, but
+not so useful for subsequent computation.
+
 
 ```{r}
 all |>
@@ -73,26 +617,120 @@ all |>
     tidyr::pivot_wider(names_from = "mol.biol", values_from = "n")
 ```
 
-# Statistical analysis
-
-Summarization -- count, mean, variance
+Use `mutate()` to update or add a column, e.g., the `BT` column
+classifies each sample as B-cell or T-cell ALL
 
 ```{r}
 all |>
-    filter(!is.na(age)) |>
+    count(BT)
+```
+
+Perhaps we are interested in a less-complete characterization, e.g.,
+is the sample B-cell, or T-cell, pooling over subtypes B1, B2,
+etc. We'll use two new functions from 'base' *R*
+
+- `startsWith()` takes a vector as the first input argument, and a
+  prefix string as the second argument. `startsWith()` returns `TRUE`
+  for each value of the vector that matches the prefix, and `FALSE`
+  otherwise.
+
+  ```{r}
+  x <- c("B", "B1", "T")
+  y <- startsWith(x, "B")
+  y
+  ```
+
+- `ifelse()` takes a logical vector as it's first argument, a value to
+  return ifan elemment of the logical vector is `TRUE` for the second
+  argument, and similarly for the thrid argument.
+
+  ```{r}
+  ifelse(y, "B", "T")
+  ```
+
+  In one line, this is
+
+  ```{r}
+  ifelse(startsWith(x, "B"), "B", "T")
+  ```
+
+Use these with the tidy function `mutate()` to create a new column
+`BorT`
+
+```{r}
+all |>
+    mutate(BorT = ifelse(startsWith(BT, "B"), "B", "T")) |>
+    count(BT, BorT)
+```
+
+
+New tibbles can be created by manipulating existing tibbles, e.g.,
+creating an `all_subset` tibble containing only samples whose sex is known,
+and who are BCR/ABL or NEG; it also contains only some of the columns.
+
+```{r}
+all_subset <-
+    ## start with the 'all' tibble...
+    all |>
+    ## filter to rows whose 'sex' and 'age' is known, and with 'mol.biol' as
+    ## BCR/ABL or NEG
+    filter(
+        !is.na(sex),
+        !is.na(age),
+        mol.biol %in% c("BCR/ABL", "NEG")
+    ) |>
+    ## add a column 'BorT' that simplifies B- or T-cell classification
+    mutate(
+        BorT = ifelse(startsWith(BT, "B"), "B", "T")
+    ) |>
+    ## select a subset of columns for future analysis
+    select(
+        cod, sex, age, BorT, mol.biol
+    )
+
+all_subset
+```
+
+# Statistical analysis
+
+Descriptive statistics (count, mean, variance, etc.) can be calculated
+using `summarize()`.
+
+```{r}
+all_subset |>
     summarize(n = n(), ave_age = mean(age))
 ```
 
+Summarizing by groups is often important and easily accomplished using
+`group_by()`.
+
 ```{r}
-all |>
-    filter(!is.na(age)) |>
+all_subset |>
     group_by(sex) |>
     summarize(n = n(), ave_age = mean(age))
 ```
 
-Classical statistics -- t-tests, linear regression
+## Classical statistics (base *R*)
 
-Survival analysis
+t-test
+
+```{r}
+t.test(age ~ sex, all_subset)
+```
+
+Chi-squared test
+
+```{r}
+all_subset |>
+    count(BorT, sex) |>
+    tidyr::pivot_wider(names_from = "BorT", values_from = "n")
+```
+
+```{r}
+with(all_subset, chisq.test(sex, BorT))
+```
+
+linear regression
 
 # Visualization
 
@@ -100,25 +738,24 @@ Survival analysis
 library(ggplot2)
 ```
 
-```{r}
-all_subset <-
-    all |>
-    filter(
-        !is.na(age),
-        mol.biol %in% c("BCR/ABL", "NEG")
-    )
-```
-
 Box plot
 
 ```{r}
 ggplot(all_subset) +
     aes(x = sex, y = age) +
-    geom_boxplot()
+    geom_boxplot() +
+    geom_jitter(width = .25)
 ```
 
 Scatter plot
 
 Linear regression
 
-# Exercise
+# Session information {.unnumbered}
+
+For reproducibility, I record the software versions used to create
+this document
+
+```{r}
+sessionInfo()
+```
