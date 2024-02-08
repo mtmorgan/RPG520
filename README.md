@@ -27,7 +27,7 @@ basics of *R*.
 management, visualization, and statistical analysis.
 
 [Day 3][] illustrates additional cases studies with a computational
-oncology perspective
+oncology emphasis.
 
 The [appendix][] provides instructions on installing *R* and
 *RStudio*, managing packages, and retrieving data sets used in

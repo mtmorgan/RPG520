@@ -10,7 +10,7 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "##"
 )
 ```
 
@@ -309,7 +309,7 @@ library(ggplot2)
 roles. The plot starts with the specification of the data set to be
 plotted...
 
-### Aesthetics & geometries: box plot
+### Aesthetics & geometries: box plot, histogram, density plot
 
 ```{r, eval = FALSE}
 ggplot(brfss_2010)
@@ -339,6 +339,31 @@ inter-quartile range. Points outside the whiskers represent potential
 outliers. The figure shows the difference in Female and Male weights,
 as well as a skew in the weight distribution of both Female and Male
 respondents.
+
+Another way to view this sort of data is as a histogram...
+
+```{r}
+brfss_2010 |> filter(Sex == "Male") |>
+    ggplot() +
+    aes(x = Weight) +
+    geom_histogram(col = "white")
+```
+
+... or when comparing distributions as a density plot
+
+```{r}
+ggplot(brfss_2010) +
+    aes(x = Weight, color = Sex) +
+    geom_density()
+```
+
+For subsequent work, note that log-transformed Weight reduces the most extreme values so the distribution is more Normal.
+
+```{r}
+ggplot(brfss_2010) +
+    aes(x = log10(Weight), color = Sex) +
+    geom_density()
+```
 
 ### Scatter plots
 
@@ -382,11 +407,11 @@ Has the relationship between height and weight of males changed
 between 1990 and 2010? Change the dataset to `brfss_male`, color by
 `Year`, and add a title to the plot so that we know a little bit more
 about the relationship. Also, explore a data transformation by using
-the square root (function `sqrt()`) of weight
+the log of weight
 
 ```{r}
 ggplot(brfss_male) +
-    aes(x = Height, y = sqrt(Weight), color = Year) +
+    aes(x = Height, y = log10(Weight), color = Year) +
     geom_point() +
     geom_smooth(method = "lm") +
     labs(title = "BRFSS Male Subset")
@@ -451,10 +476,10 @@ assumptions of the *t*-test are fully satisfied, e.g., the data are
 supposed to be normally distributed, but as we saw in the box plots
 weights are skewed. We could try to transform the data (formal
 approaches to assess appropriateness of data transformations are
-available), e.g., by using the square root (`sqrt()`) of Weight
+available), e.g., by using log Weight
 
 ```{r}
-t.test(sqrt(Weight) ~ Year, brfss_male)
+t.test(log10(Weight) ~ Year, brfss_male)
 ```
 
 Or we might use a statistic like the Wilcoxon test that makes fewer
@@ -474,7 +499,7 @@ square root of Weight and Height in each year.
 
 ```{r}
 ggplot(brfss_male) +
-    aes(x = Height, y = sqrt(Weight), color = Year) +
+    aes(x = Height, y = log10(Weight), color = Year) +
     geom_point() +
     geom_smooth(method = "lm") +
     labs(title = "BRFSS Male Subset")
@@ -495,7 +520,7 @@ result.
 
 ```{r}
 ## fit the linear model
-fit <- lm(sqrt(Weight) ~ Height, brfss_male_2010)
+fit <- lm(log10(Weight) ~ Height, brfss_male_2010)
 
 ## summarize the fit, including a statistical assessment of the fit
 summary(fit)
@@ -518,35 +543,12 @@ intercept or slope of the regression in 1990 versus 2010 are
 straight-forward to implement, but require more sophisticated
 statistical understanding.
 
-# Acute Lymphocytic Leukemia
+# Acute Lymphocytic Leukemia (ALL)
 
 This data set is from an old microarray experiment investigating acute
 lymphocytic leukemia (ALL) (PMID [14684422][], [16243790][]; the data
 has been extracted from the [ALL][] *Bioconductor* package).  We focus
 on phenotypes of 128 patients.
-
- 1 cod            Patient ID
- 2 diagnosis      Date of diagnosis
- 3 sex            Gender of the patient
- 4 age            Age of the patient at entry
- 5 BT             does the patient have B-cell or T-cell ALL
- 6 remission      Complete remission(CR), refractory(REF) or NA. Derived from CR
- 7 CR             Original remisson data
- 8 date.cr        Date complete remission if achieved
- 9 t(4;11)        did the patient have t(4;11) translocation. Derived from citog
-10 t(9;22)        did the patient have t(9;22) translocation. Derived from citog
-11 cyto.normal    Was cytogenetic test normal? Derived from citog
-12 citog          original citogenetics data, deletions or t(4;11), t(9;22) sta…
-13 mol.biol       molecular biology
-14 fusion protein which of p190, p210 or p190/210 for bcr/able
-15 mdr            multi-drug resistant
-16 kinet          ploidy: either diploid or hyperd.
-17 ccr            Continuous complete remission? Derived from f.u
-18 relapse        Relapse? Derived from f.u
-19 transplant     did the patient receive a bone marrow transplant? Derived fro…
-20 f.u            follow up data available
-21 date last seen date patient was last seen
-
 
 [14684422]: https://doi.org/10.1182/blood-2003-09-3243
 [16243790]: https://doi.org/10.1158/1078-0432.ccr-04-2165
@@ -556,212 +558,268 @@ on phenotypes of 128 patients.
 
 What is a 'csv' file?
 
-```{r, message = FALSE}
-library(readr)
-library(dplyr)
-```
-
 ```{r, include = FALSE}
 all_file <- system.file(package = "RPG520", "extdata", "ALL.csv")
-all <- read_csv(all_file)
+all <- readr::read_csv(all_file)
 ```
 
 ```{r, eval = FALSE}
 all_file <- file.choose()
-all <- read_csv(all_file)
+all <- readr::read_csv(all_file)
 ```
 
 ```{r}
 glimpse(all)
 ```
 
+## Exploration & cleaning
 
-## Examples
+For simplicity we focus on the following columns:
+
+- 'cod' is a unique identifier
+- 'sex'. We will recode this to a factor with levels 'Female' and
+  'Male', so that there is no ambiguity about its meaning.
+- 'age'.
+- 'BT' represents B- or T- cell status. It is too fine-grained, so we
+  will recode this to a new variable 'BorT'.
+- 'mol.biol' summarizes status with respect to chromosomal status. We
+  will filter the data to contain only patients with values 'BCR/ABL'
+  (the classic BCR / ABL inversion) or 'NEG' (no chromosomal
+  changes). We will recode the result as a factor with levels
+  'BCR/ABL' and 'NEG'.
+
+### `select()`
+
+Use `select()` to select just the columns of interest. Re-assign the
+result to `all`.
 
 ```{r}
-count(all, sex)
+all <-
+    all |>
+    select(cod, sex, age, BT, mol.biol)
 ```
 
-Data management often involves several steps. Chain the steps together
-using a pipe, `|>`. The result of the left-hand side of the pipe
-becomes the first argument of the function on the right-hand side.
+### `ifelse()` and `factor()`
+
+'sex' is currently a character vector with two values 'F' and 'M', as
+well as missing values
 
 ```{r}
 all |>
     count(sex)
 ```
 
-'Tidy' functions can usually be piped together. Use `filter()` to keep
-only rows that are not `NA`, then count `mol.biol` on this subset of
-the data.
+We can remove individuals whose sex is unknown using
+`filter(!is.na(sex))`.  Use `ifelse()` to translate 'F' and 'M' to
+'Female' and 'Male', and then `factor()` so that this column is a
+factor
 
 ```{r}
-all |>
+all  |>
     filter(!is.na(sex)) |>
-    count(mol.biol)
+    mutate(
+        sex = factor(
+            ifelse(sex == "F", "Female", "Male"),
+            levels = c("Female", "Male")
+        )
+    )
 ```
 
-Many 'tidy' functions can take more than one argument, e.g., to filter
-and count on `sex` and `mol.biol`...
+### `startsWith()`
 
-```{r}
-all |>
-    filter(
-        !is.na(sex),
-        mol.biol %in% c("BCR/ABL", "NEG")
-    ) |>
-    count(sex, mol.biol)
-```
-
-The following illustrates `pivot_wider`, taking names for new columns
-from the `mol.biol` column, and values from the `n` (count)
-column. This pivoted table is often useful for displaying results, but
-not so useful for subsequent computation.
-
-
-```{r}
-all |>
-    filter(
-        !is.na(sex),
-        mol.biol %in% c("BCR/ABL", "NEG")
-    ) |>
-    count(sex, mol.biol) |>
-    tidyr::pivot_wider(names_from = "mol.biol", values_from = "n")
-```
-
-Use `mutate()` to update or add a column, e.g., the `BT` column
-classifies each sample as B-cell or T-cell ALL
+The `BT` column describes whether individuals have B- or T-cell
+ALL. There are several different grades of each.
 
 ```{r}
 all |>
     count(BT)
 ```
 
-Perhaps we are interested in a less-complete characterization, e.g.,
-is the sample B-cell, or T-cell, pooling over subtypes B1, B2,
-etc. We'll use two new functions from 'base' *R*
+We are interested in simplifying this to just two values, 'B' or 'T',
+based on the first letter of each vector element. The `startsWith()`
+function returns `TRUE` each time an element of the first argument
+starts with the second argument.
 
-- `startsWith()` takes a vector as the first input argument, and a
-  prefix string as the second argument. `startsWith()` returns `TRUE`
-  for each value of the vector that matches the prefix, and `FALSE`
-  otherwise.
+```{r}
+x <- c("B", "B1", "T")
+startsWith(x, "B")
+```
 
-  ```{r}
-  x <- c("B", "B1", "T")
-  y <- startsWith(x, "B")
-  y
-  ```
-
-- `ifelse()` takes a logical vector as it's first argument, a value to
-  return ifan elemment of the logical vector is `TRUE` for the second
-  argument, and similarly for the thrid argument.
-
-  ```{r}
-  ifelse(y, "B", "T")
-  ```
-
-  In one line, this is
-
-  ```{r}
-  ifelse(startsWith(x, "B"), "B", "T")
-  ```
-
-Use these with the tidy function `mutate()` to create a new column
-`BorT`
+We can combine this with `ifelse()` and `factor()` to mutate `BT`
 
 ```{r}
 all |>
-    mutate(BorT = ifelse(startsWith(BT, "B"), "B", "T")) |>
-    count(BT, BorT)
+    mutate(
+        BT = factor(
+            ifelse(startsWith(BT, "B"), "B", "T"),
+            levels = c("B", "T")
+        )
+    )
 ```
 
+### `%in%`
 
-New tibbles can be created by manipulating existing tibbles, e.g.,
-creating an `all_subset` tibble containing only samples whose sex is known,
-and who are BCR/ABL or NEG; it also contains only some of the columns.
+'mol.biol' is also a character vector with several different values.
+
+```{r}
+all |>
+    count(mol.biol)
+```
+
+We will filter `all` to only include 'BCR/ABL' or 'NEG' samples using
+`%in%`. `%in%` is an 'infix' operator (like `~`) with a left-hand side
+and a right-hand side. The left-hand side is a vector of values that
+we are interested in. The right-hand side is also a vector, and
+represents a (mathematical) 'set' of values. `%in%` asks, for each
+element of the left-hand size, if the element is a member of the set
+on the right hand side.
+
+```{r}
+x <- c(1, 2, 3, 4, 5)
+x %in% c(2, 5)
+```
+
+Filtering the `all` dataset is accomplished with
+
+```{r}
+all |>
+    filter(mol.biol %in% c("BCR/ABL", "NEG"))
+```
+
+Re-coding the filtered values of 'mol.biol' uses `factor()` in a way
+that we have already seen with 'sex'.
+
+### Data cleaning pipeline
+
+Putting these filtering and re-coding steps together, our initial
+cleaning results in
 
 ```{r}
 all_subset <-
-    ## start with the 'all' tibble...
     all |>
-    ## filter to rows whose 'sex' and 'age' is known, and with 'mol.biol' as
-    ## BCR/ABL or NEG
+    ## columns of interest
+    select(cod, sex, age, BT, mol.biol) |>
+    ## rows of interest
     filter(
         !is.na(sex),
-        !is.na(age),
         mol.biol %in% c("BCR/ABL", "NEG")
     ) |>
-    ## add a column 'BorT' that simplifies B- or T-cell classification
+    ## re-coding sex, mol.bio, BT
     mutate(
-        BorT = ifelse(startsWith(BT, "B"), "B", "T")
-    ) |>
-    ## select a subset of columns for future analysis
-    select(
-        cod, sex, age, BorT, mol.biol
+        sex = factor(
+            ifelse(sex == "F", "Female", "Male"),
+            levels = c("Female", "Male")
+        ),
+        BT = factor(
+            ifelse(startsWith(BT, "B"), "B", "T"),
+            levels = c("B", "T")
+        ),
+        mol.biol = factor(mol.biol, levels = c("BCR/ABL", "NEG"))
     )
-
-all_subset
 ```
 
-# Statistical analysis
+## Data exploration
 
-Descriptive statistics (count, mean, variance, etc.) can be calculated
-using `summarize()`.
-
-```{r}
-all_subset |>
-    summarize(n = n(), ave_age = mean(age))
-```
-
-Summarizing by groups is often important and easily accomplished using
-`group_by()`.
+A basic characterize of our subset might group by sex and summarize
+the number and average age of each group.
 
 ```{r}
 all_subset |>
     group_by(sex) |>
-    summarize(n = n(), ave_age = mean(age))
+    summarize(
+        n = n(),
+        av_age = mean(age, na.rm = TRUE)
+    )
 ```
 
-## Classical statistics (base *R*)
+There are about twice as many Male as Female samples; the average age
+of Female samples is about 4 years older than Male samples.
 
-t-test
-
-```{r}
-t.test(age ~ sex, all_subset)
-```
-
-Chi-squared test
-
-```{r}
-all_subset |>
-    count(BorT, sex) |>
-    tidyr::pivot_wider(names_from = "BorT", values_from = "n")
-```
-
-```{r}
-with(all_subset, chisq.test(sex, BorT))
-```
-
-linear regression
-
-# Visualization
-
-```{r, message = FALSE}
-library(ggplot2)
-```
-
-Box plot
+We can visualize the distribution of ages in several ways, as
+illustrated in the previous case study. Here we create a box plot with
+`geom_boxplot()`, then overlay the individual points using
+`geom_jitter()` (this geom displays each point but with a bit of
+'jitter' away from its actual value -- instead of being plotted
+exactly on the 'Female' or 'Male' line, the points are offset a random
+amount).
 
 ```{r}
 ggplot(all_subset) +
     aes(x = sex, y = age) +
     geom_boxplot() +
-    geom_jitter(width = .25)
+    geom_jitter(width = .2)
 ```
 
-Scatter plot
+The following table counts the number of 'BCR/ABL' and 'NEG' among
+'Female' and 'Male' samples; it seems like there is a disproportionate
+number of 'Male' 'NEG' (chromosomally normal) individuals.
 
-Linear regression
+```{r}
+all_subset |>
+    count(mol.biol, sex) |>
+    tidyr::pivot_wider(names_from = "sex", values_from = "n")
+```
+
+Here is a similar tally of B- and T-cell ALL for 'Female' and 'Male' samples
+
+```{r}
+all_subset |>
+    count(BT, sex) |>
+    tidyr::pivot_wider(names_from = "sex", values_from = "n")
+```
+
+... and a count of 'BT' and 'mol.biol' by sex
+
+```{r}
+all_subset |>
+    count(BT, mol.biol, sex) |>
+    tidyr::pivot_wider(names_from = "sex", values_from = "n")
+```
+
+Note that there are not T-cell, BCR/ABL samples. Is this for
+biological reasons, or is an artifact of the procedures used in data
+collection? Does it limit or bias the statistical questions that can
+be asked?
+
+## Statistical analysis
+
+A *t*-test indicates that the difference in Male and Female age noted
+above is not statistically significant
+
+```{r}
+t.test(age ~ sex, all_subset)
+```
+
+We noted differences in the number 'BCR/ABL' and 'NEG' samples with
+respect to `sex`. A Chi-squared test can be used to assess whether
+these differences are statistically significant. Look at the help page
+`?chisq.test`. The idea is that the first argument is a vector of
+observations of one variable (e.g., `mol.biol`) and the second
+argument is the second variable (`sex`). Unlike `t.test`, there is no
+`data=` argument, and no formula (`~`) interface. In base *R* one
+might use `$` to access individual columns of a tibble, so the test
+could be performed with
+
+```{r, eval = FALSE}
+chisq.test(all_subset$mol.biol, all_subset$sex)
+```
+
+A convenient variation of this is to use the function `with()`, which
+allows one to write the test as
+
+```{r}
+all_subset |>
+    with(chisq.test(mol.biol, sex))
+```
+
+The P-value indicates that the differences in counts of 'BCR/ABL' and
+'NEG' observed between 'Female' and 'Male' are not statistically
+supported. A similar conclusion applies with `BT` and `sex`.
+
+```{r}
+all_subset |>
+    with(chisq.test(BT, sex))
+```
 
 # Session information {.unnumbered}
 
