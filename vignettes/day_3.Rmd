@@ -1,8 +1,8 @@
 ---
-title: "Day 3: High-throughput Genomic Analysis"
+title: "Day 3: Single Cell Data; Survival Analysis"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Day 3: High-throughput Genomic Analysis}
+  %\VignetteIndexEntry{Day 3: Single Cell Data; Survival Analysis}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,16 +16,301 @@ knitr::opts_chunk$set(
 
 ```{r setup, message = FALSE}
 library(RPG520)
-library(cellxgenedp)
-## library(zellkonverter)
-## library(SingleCellExperiment)
 ```
 
-# Case study: single-cell RNAseq
+# Single-cell RNAseq
 
-# Data representations
+This case study illustrates how *R* can be used to understand
+single-cell RNAseq data, assuming that the 'heavy lifting' of
+transforming raw FASTQ files to normalized matrices of counts
+measuring expression of each gene in each cell has been done by, e.g.,
+a bioinformatics core. _R_ can be used to summarize biological sample
+and cell attributes, e.g., the number of donors and cells per
+donor. Visualizations like UMAP plots showing cell expression patterns
+in two-dimensional space can be easily generated and
+annotated. Individual genes can be annotated with additional
+information, e.g., with a description of the gene or of the genes in
+particular pathways. The next article introduces more comprehensive
+work flows.
 
-# From CELLxGENE to UMAP
+## Input
+
+As before, we use [dplyr][] for data manipulation, and [readr][] for
+data input.
+
+[dplyr]: https://CRAN.R-project.org/package=dplyr
+[readr]: https://CRAN.R-project.org/package=readr
+
+```{r, message = FALSE}
+library(dplyr)
+```
+
+Read a 'csv' file summarizing infomration about each cell in the
+experiment.
+
+```{r, echo = FALSE}
+cell_file <-
+    system.file(package = "RPG520", "extdata", "scrnaseq-cell-data.csv")
+cell <- readr::read_csv(cell_file)
+```
+
+```{r, eval = FALSE}
+cell_file <- file.choose() # find 'scrnaseq-cell-data.csv'
+cell <- readr::read_csv(cell_file)
+```
+
+```{r}
+glimpse(cell)
+```
+
+## Exploration & cleaning
+
+Summarize information -- how many donors, what developmental stage,
+what ethnicity?
+
+```{r}
+cell |>
+    count(donor_id, development_stage, self_reported_ethnicity)
+```
+
+What cell types have been annotated?
+
+```{r}
+cell |>
+    count(cell_type)
+```
+
+Cell types for each ethnicity?
+
+```{r}
+cell |>
+    count(self_reported_ethnicity, cell_type) |>
+    tidyr::pivot_wider(
+        names_from = "self_reported_ethnicity",
+        values_from = "n"
+    )
+```
+
+Reflecting on this -- there is no replication across non-European
+ethnicity, so no statistical insights available. Pooled samples
+probably require careful treatment in any downstream analysis.
+
+## UMAP visualization
+
+In a single-cell experiment, each cell has been characterized for gene
+expression at 1000's of genes, so a cell can be though of as occupying
+a position in 1000's of dimensions.  UMAP ('Uniform Manifold
+Approximation and Projection') is a method for reducing the
+dimensionality of the space the cell occupies, to simplify
+visualization and other operations. The `UMAP_1` and `UMAP_2` columns
+contain the coordinates of each cell in the space defined by UMAP
+applied to the cell expression values.
+
+Use the 'UMAP' columns to visualize gene expression. This code
+illustrates that `ggplot() + ...` actually returns an *object* that
+can be assigned to a variable (`plt`) to be used in subsequent
+computations.
+
+```{r, message = FALSE}
+library(ggplot2)
+plt <-
+    ggplot(cell) +
+    aes(UMAP_1, UMAP_2, color = cell_type) +
+    geom_point(pch = ".")
+plt
+```
+
+The [plotly][] package is a fantastic tool for making interactive
+plots, e.g., with mouse-over 'tool tips' and 'brushing' selection. The
+`toWebGL()` function makes display of plots with many points very
+quick.
+
+```{r, message = FALSE, warning = FALSE}
+library(plotly)
+ggplotly(plt) |>
+    toWebGL()
+```
+
+[plotly]: https://CRAN.R-project.org/package=plotly
+
+# Survival analysis
+
+These notes are from an online tutorial by Emily C. Zabor called
+[Survival Analysis in R][SAR]. In addition to [dplyr][] and
+[ggplot2][], we use the specialized packages [survival][] and
+[ggsurvfit][].
+
+```{r, message = FALSE}
+library(dplyr)
+library(ggplot2)
+library(survival)
+library(ggsurvfit)
+```
+
+[SAR]: https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html
+[ggplot2]: https://CRAN.R-project.org/package=ggplot2
+[survival]: https://CRAN.R-project.org/package=survival
+[ggsurvfit]: https://CRAN.R-project.org/package=ggsurvfit
+
+## Data input, cleaning, & exploration
+
+We use a data set that is built-in to *R*, available from the
+[survival][] package. it's a base *R* `data.frame`, but we'll coerce
+it immediately into a [dplyr][] tibble.
+
+```{r tidy, message = FALSE}
+lung <-
+    lung |>
+    as_tibble()
+lung
+```
+
+The meaning of each column is documented on the help page `?lung`. We
+make two further changes. As noted on the help page, `status` is coded
+as '1' or '2' (censored or dead; a censored sample is an individual
+who is still alive at the end of the study), but the usual convention
+is to code these as '0' or '1'. `sex` is coded as 1 or 2, but it seems
+much more sensible to use a factor with levels 'Female' or 'Male')
+
+```{r recode}
+lung <-
+    lung |>
+    mutate(
+        status = status - 1,
+        sex = factor(
+            ifelse(sex == 1, "Male", "Female"),
+            levels = c("Female", "Male")
+        )
+    )
+```
+
+The study contains fewer Female than Male samples; there is an
+indication that mortality (status '1') is higher in Male
+samples. Deceased individuals are slightly older than censored
+individuals; not surprisingly, the `time` (either until the end of the
+study or death) is longer for censored individuals.
+
+```{r explore}
+lung |>
+    count(sex, status) |>
+    tidyr::pivot_wider(names_from = "sex", values_from = "n")
+
+lung |>
+    group_by(status) |>
+    summarize(n = n(), av_time = mean(time), av_age = mean(age))
+```
+
+## Survival analysis
+
+The [survival][] package introduces a function `Surv()` that combines
+information about time and status. Here are the first 6 rows of
+`lung`, and the first 6 values returned by `Surv()`
+
+```{r Surv}
+lung |>
+    head()
+
+lung |>
+    with(Surv(time, status)) |>
+    head()
+```
+
+Note the `+` associated with the third and sixth elements,
+corresponding to `status` '0' (censored) in `lung`.
+
+Use `survfit()` to fit a survival model to the data. The model asks
+'what is the probability of survival to X number of days, given the
+`time` and `status` observations?'. The formula below, with `~ 1`,
+indicates that we will not include any co-variates, like the sex of
+samples.
+
+```{r survfit}
+fit <- survfit(Surv(time, status) ~ 1, lung)
+fit
+```
+
+A basic plot illustrates how probability of survival declines with
+time; dashed lines represent confidence intervals. A little more is
+covered below.
+
+```{r survfit-plot}
+plot(fit)
+```
+
+The `fit` object can be used to calculate various statistics, e.g.,
+the probability of surviving 180, 360, 540, or 720 days
+
+```{r fit.summary}
+days <- c(180, 360, 540, 720)
+summary(fit, times = days)
+```
+
+A more complicated model might ask about survival for each
+sex. Construct this model by adding `sex` (a covariate) to the
+right-hand side of the formula; subsequent steps are the same, but now
+information is available for each sex. 
+
+```{r survfit-sex}
+fit_sex <- survfit(Surv(time, status) ~ sex, lung)
+fit_sex
+summary(fit_sex, times = days)
+```
+
+`survdiff()` is one way to test for the effect of `sex` on survival.
+
+```{r survdiff}
+survdiff(Surv(time, status) ~ sex, lung)
+```
+
+See also the Cox proportional hazards model.
+
+## Visualization
+
+Functions in the [ggsurvfit][] package provide [ggplot2][]-style
+plotting functionality.
+
+```{r ggsurvfit, message = FALSE}
+library(ggsurvfit)
+```
+
+Here we plot the survivorship of Male and Female samples in the 'lung'
+data set, including confidence intervals.
+
+```{r ggsurvfit-plot}
+survfit(Surv(time, status) ~ sex, lung) |>
+    ggsurvfit() +
+    add_confidence_interval()
+```
+
+## Next steps
+
+The [survival][] package contains a number of vignettes
+
+```{r, vignettes, eval = FALSE}
+vignette(package = "survival")
+## Vignettes in package 'survival':
+## 
+## adjcurve                Adjusted Survival Curves (source, pdf)
+## approximate             Approximating a Cox Model (source, pdf)
+## redistribute            Brier scores and the redistribute-to-the-right
+##                         algorithm (source, pdf)
+## concordance             Concordance (source, pdf)
+## discrim                 Discrimination and Calibration (source, pdf)
+## matrix                  Matrix exponentials (source, pdf)
+## compete                 Multi-state models and competing risks (source,
+##                         pdf)
+## multi                   Multi-state survival curves (source, pdf)
+## other                   Other vignettes (source, pdf)
+## population              Population contrasts (source, pdf)
+## tiedtimes               Roundoff error and tied times (source, pdf)
+## splines                 Splines, plots, and interactions (source, pdf)
+## survival                The survival package (source, pdf)
+## timedep                 Using Time Dependent Covariates (source, pdf)
+## validate                Validation (source, pdf)
+```
+
+Start with the 'survival' vignette `vignette(package = "survival",
+"survival")` if this is an area of particular interest to you.
 
 # Session information {.unnumbered}
 

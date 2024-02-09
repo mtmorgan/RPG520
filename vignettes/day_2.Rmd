@@ -556,7 +556,7 @@ on phenotypes of 128 patients.
 
 ## Data input
 
-What is a 'csv' file?
+Use `readr::read_csv()` to input the 'ALL.csv' file.
 
 ```{r, include = FALSE}
 all_file <- system.file(package = "RPG520", "extdata", "ALL.csv")
@@ -564,7 +564,7 @@ all <- readr::read_csv(all_file)
 ```
 
 ```{r, eval = FALSE}
-all_file <- file.choose()
+all_file <- file.choose() # look for 'Rpg520/week-04/extdata/all.csv'
 all <- readr::read_csv(all_file)
 ```
 
