@@ -18,6 +18,14 @@ knitr::opts_chunk$set(
 library(RPG520)
 ```
 
+# Introduction
+
+Today we work through two more cancer-relevant case studies. The first
+looks at single-cell RNAseq, aiming to understand how we can visualize
+a 'UMAP' projection of cell types. The second introduces survival
+analysis and working with data to present a 'Kaplan-Meier' curve. The
+workshop material is by no means exhaustive!
+
 # Single-cell RNAseq
 
 This case study illustrates how *R* can be used to understand
@@ -48,7 +56,7 @@ library(dplyr)
 Read a 'csv' file summarizing infomration about each cell in the
 experiment.
 
-```{r, echo = FALSE}
+```{r, include = FALSE}
 cell_file <-
     system.file(package = "RPG520", "extdata", "scrnaseq-cell-data.csv")
 cell <- readr::read_csv(cell_file)

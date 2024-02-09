@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 library(RPG520)
 ```
 
-# Overview
+# Introduction
 
 We use two case studies today. The studies are used to illustrate the
 data manipulation and statistical analysis tasks that one might expect

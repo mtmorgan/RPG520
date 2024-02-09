@@ -20,7 +20,9 @@ library(RPG520)
 
 # Connecting to the CCR
 
-# Essential *R*
+# Introduction to *R*
+
+## Essential *R*
 
 A simple calculator
 
@@ -117,7 +119,7 @@ plot(y ~ x, df)
 abline(lm(y ~ x, df))
 ```
 
-## A little more advanced...
+### A little more advanced...
 
 Write your own functions
 
@@ -135,7 +137,7 @@ names <- c("Martin", "Thomas")
 lapply(names, hello)
 ```
 
-# Packages
+## Packages
 
 Packages extend functionality of base _R_. Can be part of the 'base'
 distribution (`lm()` is from the 'stats' package)...
@@ -194,7 +196,7 @@ ggplot(tbl) +                    # use 'tbl' as a source of data for the plot
 [dplyr]: https://CRAN.R-project.org/package=dplyr
 [ggplot2]: https://CRAN.R-project.org/package=ggplot2
 
-# Learning *R*
+## How to Learning *R*
 
 Help
 

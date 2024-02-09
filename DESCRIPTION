@@ -1,6 +1,6 @@
 Package: RPG520
 Title: Course Material for Principles of Computational Oncology
-Version: 0.0.0.9003
+Version: 0.0.0.9004
 Authors@R: c(
     person(
         "Martin", "Morgan", role = c("aut", "cre"),
