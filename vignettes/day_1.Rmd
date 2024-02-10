@@ -14,11 +14,52 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, message = FALSE}
-library(RPG520)
+# Connecting to the CCR
+
+## From CCR to RStudio
+
+1. Use your browser to navigate to
+   <https://ondemand.ccr.buffalo.edu/>. Look under the "GUIs" section,
+   and choose 'RStudio Server'.
+
+    <img src='images/CCR-RStudio.png'>
+
+2. Provide details on the next screen, then click 'Launch'
+
+    <img src='images/config.png'>
+
+- 'Cluster': choose "Faculty - privately owned nodes" (these are
+    'Roswell' nodes)
+  - 'Slurm account': choose your user name.
+  - 'Partition': choose 'rpci'.
+  - 'Quality of Service (QOS)': choose 'rpci'
+  - 'Number of hours requested': choose 2; you'll be unceremoniously
+      kicked off after this number of hours, so save any work-in-progress.
+
+
+3. Clicking the 'Launch' button puts your request for compute
+   resources into a queue. You have to wait. Not too long. Hopefully.
+
+    <img src='images/queue.png'>
+
+4. Eventually the CCR finds resources for your job, and the queue
+   status changes to 'Running', with a link to 'Connect to RStudio
+   Server'. Click on the link to get to your own session of RStudio.
+
+    <img src='images/launch.png'>
+
+## RStudio
+
+We'll use *RStudio* extensively. To get going, copy and paste the
+following line into the 'Console'
+
+```{r, eval = FALSE}
+source('/projects/rpci/rplect/Rpg520/Rsetdirs.R')
 ```
 
-# Connecting to the CCR
+   <img src='images/rstudio.png'>
+
+OK, we are ready to go!
 
 # Introduction to *R*
 
@@ -190,13 +231,13 @@ library(ggplot2)
 ggplot(tbl) +                    # use 'tbl' as a source of data for the plot
     aes(x, y) +                  # use columns 'x' and 'y' for axes
     geom_point() +               # add x and y coordinates as points
-    geom_smooth(method = "lm")   # add a regression line
+    geom_smooth(method = "lm")   # add a regression line, with confidence bands
 ```
 
 [dplyr]: https://CRAN.R-project.org/package=dplyr
 [ggplot2]: https://CRAN.R-project.org/package=ggplot2
 
-## How to Learning *R*
+## How to Learn *R*
 
 Help
 
