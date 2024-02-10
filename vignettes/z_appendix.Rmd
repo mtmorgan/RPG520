@@ -63,7 +63,10 @@ Start by creating a vector of packages to install. For this workshop,
 we used the following packages.
 
 ```{r}
-pkgs <- c("readr", "dplyr", "tidyr", "ggplot2")
+pkgs <- c(
+    "readr", "dplyr", "tidyr", "ggplot2",
+    "plotly", "survival", "ggsurvfit"
+)
 ```
 
 Use `setdiff()` (remove from the vector in the first argument all

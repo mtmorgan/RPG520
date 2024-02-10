@@ -184,7 +184,10 @@ much more sensible to use a factor with levels 'Female' or 'Male')
 lung <-
     lung |>
     mutate(
-        status = status - 1,
+        status = factor(
+            ifelse(status == 1, "Censored", "Death"),
+            levels = c("Censored", "Death")
+        ),
         sex = factor(
             ifelse(sex == 1, "Male", "Female"),
             levels = c("Female", "Male")
@@ -219,7 +222,7 @@ lung |>
     head()
 
 lung |>
-    with(Surv(time, status)) |>
+    with(Surv(time, status == "Death")) |>
     head()
 ```
 
@@ -233,7 +236,7 @@ indicates that we will not include any co-variates, like the sex of
 samples.
 
 ```{r survfit}
-fit <- survfit(Surv(time, status) ~ 1, lung)
+fit <- survfit(Surv(time, status == "Death") ~ 1, lung)
 fit
 ```
 
@@ -259,7 +262,7 @@ right-hand side of the formula; subsequent steps are the same, but now
 information is available for each sex. 
 
 ```{r survfit-sex}
-fit_sex <- survfit(Surv(time, status) ~ sex, lung)
+fit_sex <- survfit(Surv(time, status == "Death") ~ sex, lung)
 fit_sex
 summary(fit_sex, times = days)
 ```
@@ -267,7 +270,7 @@ summary(fit_sex, times = days)
 `survdiff()` is one way to test for the effect of `sex` on survival.
 
 ```{r survdiff}
-survdiff(Surv(time, status) ~ sex, lung)
+survdiff(Surv(time, status == "Death") ~ sex, lung)
 ```
 
 See also the Cox proportional hazards model.
@@ -285,7 +288,7 @@ Here we plot the survivorship of Male and Female samples in the 'lung'
 data set, including confidence intervals.
 
 ```{r ggsurvfit-plot}
-survfit(Surv(time, status) ~ sex, lung) |>
+survfit(Surv(time, status == "Death") ~ sex, lung) |>
     ggsurvfit() +
     add_confidence_interval()
 ```
