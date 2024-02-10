@@ -211,7 +211,7 @@ lung |>
     summarize(n = n(), av_time = mean(time), av_age = mean(age))
 ```
 
-## Survival analysis
+## Statistical analysis
 
 The [survival][] package introduces a function `Surv()` that combines
 information about time and status. Here are the first 6 rows of

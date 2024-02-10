@@ -77,8 +77,8 @@ packages that are not currently installed remain.
 pkgs <- setdiff(pkgs, rownames(installed.packages()))
 ```
 
-Finally, using the function `install.packages()` to install the
-required packages from a central CRAN repository.
+Finally, use the function `install.packages()` to install the required
+packages from a central CRAN repository.
 
 ```{r, eval = FALSE}
 install.packages(pkgs, repos = "https://CRAN.R-project.org")
@@ -107,6 +107,8 @@ pkgs <- setdiff(pkgs, rownames(installed.packages()))
 BiocManager::install(pkgs)
 ```
 
+[BiocManager]: https://CRAN.R-project.org/package=BiocManager
+
 ## Updating packages
 
 `install.packages()` and `BiocManager::install()` report packages that
@@ -127,10 +129,9 @@ situations when you might wish to continue using older packages.
   is no longer possible because of changes in the underlying software.
 
   There are a number of strategies for taking a 'snapshot' of software
-  versions used in a particular analysis (e.g.,, the [renv][]
-  package), and if you become serious about using *R* it is very
-  valuable to explore these resources *before* you need to reproduce
-  them.
+  versions used in a particular analysis (e.g., the [renv][] package),
+  and if you become serious about using *R* it is very valuable to
+  explore these resources *before* you need to reproduce them.
 
 ## FAQ: binary or source packages?
 
@@ -140,7 +141,7 @@ recent. Almost always the best response is to stay with the 'binary'
 package -- the more-recent 'source' package will likely be made
 available in a short time frame (within a week), and if not indicates
 that the package is difficult to install even by the wizards at CRAN
--- mere mortals like you and I will have to become very proficient to
+-- mortals like you and I will have to become very proficient to
 install Windows or macOS packages from source.
 
 [Bioconductor]: https://bioconductor.org/packages
