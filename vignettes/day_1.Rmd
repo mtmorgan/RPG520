@@ -16,6 +16,19 @@ knitr::opts_chunk$set(
 
 # Connecting to the CCR
 
+We'll use the UB CCR computer cluster for the workshop. This
+(hopefully) simplifies initial steps in 'getting going', while
+introducing the main resource available when your desktop is not
+sufficient. See the [appendix][] if you would like to install *R* and
+*RStudio* on your own laptop.
+
+Visit and sign in, using your UB id, from a Roswell Park or UB
+network: <https://ondemand.ccr.buffalo.edu>
+
+<img src='images/login.png'>
+
+[appendix]: z_appendix.html
+o
 ## From CCR to RStudio
 
 1. Use your browser to navigate to
