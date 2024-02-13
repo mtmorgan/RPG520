@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">RPG520</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9008</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,8 +80,18 @@
 
     
     
+<ol style="list-style-type: decimal">
+<li><p>Log on to <a href="https://ondemand.ccr.buffalo.edu" class="external-link uri">https://ondemand.ccr.buffalo.edu</a></p></li>
+<li>
+<p>Set up <em>RStudio</em> for today</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mtmorgan.github.io/RPG520/">RPG520</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">'/projects/rpci/rplect/Rpg520/Rsetdirs.R'</span><span class="op">)</span></span></code></pre></div>
+</li>
+<li>
+<p>Let <em>RStudio</em> know about your new working directory</p>
+<p><img src="images/rstudio-config.png"></p>
+</li>
+</ol>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -434,7 +444,7 @@ geometric relationship between the x and y aesthetics. One geom is
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">## Warning: Removed 395 rows containing non-finite values</span></span>
 <span><span class="co">## (`stat_boxplot()`).</span></span></code></pre></div>
-<p><img src="day_2_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
+<p><img src="day_2_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
 <p>The bar in the figure is the median weight, the box represents upper
 and lower quartile of the data, the whiskers extend to 1.5 times the
 inter-quartile range. Points outside the whiskers represent potential
@@ -449,7 +459,7 @@ respondents.</p>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span></span>
 <span><span class="co">## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></span>
 <span><span class="co">## Warning: Removed 49 rows containing non-finite values (`stat_bin()`).</span></span></code></pre></div>
-<p><img src="day_2_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
+<p><img src="day_2_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
 <p>… or when comparing distributions as a density plot</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">brfss_2010</span><span class="op">)</span> <span class="op">+</span></span>
@@ -457,7 +467,7 @@ respondents.</p>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html" class="external-link">geom_density</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">## Warning: Removed 395 rows containing non-finite values</span></span>
 <span><span class="co">## (`stat_density()`).</span></span></code></pre></div>
-<p><img src="day_2_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
+<p><img src="day_2_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
 <p>For subsequent work, note that log-transformed Weight reduces the
 most extreme values so the distribution is more Normal.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
@@ -466,7 +476,7 @@ most extreme values so the distribution is more Normal.</p>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html" class="external-link">geom_density</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">## Warning: Removed 395 rows containing non-finite values</span></span>
 <span><span class="co">## (`stat_density()`).</span></span></code></pre></div>
-<p><img src="day_2_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
+<p><img src="day_2_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="scatter-plots">Scatter plots<a class="anchor" aria-label="anchor" href="#scatter-plots"></a>
@@ -480,7 +490,7 @@ scatter plot showing this relationship</p>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Height</span>, y <span class="op">=</span> <span class="va">Weight</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">## Warning: Removed 450 rows containing missing values (`geom_point()`).</span></span></code></pre></div>
-<p><img src="day_2_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
+<p><img src="day_2_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
 <p>Yes there looks like a relationship. Add
 <code>geom_smooth(method = "lm")</code> to fit a smoothed relationship
 to the points; <code>method = "lm"</code> indicates that the smoothed
@@ -494,7 +504,7 @@ line should be a linear regression.</p>
 <span><span class="co">## Warning: Removed 450 rows containing non-finite values</span></span>
 <span><span class="co">## (`stat_smooth()`).</span></span>
 <span><span class="co">## Warning: Removed 450 rows containing missing values (`geom_point()`).</span></span></code></pre></div>
-<p><img src="day_2_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
+<p><img src="day_2_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
 <p>The relationship between height and weight likely depends on sex. Add
 <code>color = Sex</code> to the <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes()</a></code> argument, so each
 geom (both points and smoothed line) is colored by Sex.</p>
@@ -507,7 +517,7 @@ geom (both points and smoothed line) is colored by Sex.</p>
 <span><span class="co">## Warning: Removed 450 rows containing non-finite values</span></span>
 <span><span class="co">## (`stat_smooth()`).</span></span>
 <span><span class="co">## Warning: Removed 450 rows containing missing values (`geom_point()`).</span></span></code></pre></div>
-<p><img src="day_2_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
+<p><img src="day_2_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
 <p>The lines cover the range of values for each sex; the relationship
 between height and weight appears slightly steeper for males than
 females.</p>
@@ -526,7 +536,7 @@ transformation by using the log of weight</p>
 <span><span class="co">## Warning: Removed 104 rows containing non-finite values</span></span>
 <span><span class="co">## (`stat_smooth()`).</span></span>
 <span><span class="co">## Warning: Removed 104 rows containing missing values (`geom_point()`).</span></span></code></pre></div>
-<p><img src="day_2_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
+<p><img src="day_2_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
 <p>The figure suggests that 2010 males are heavier than 1990 males at
 all heights, and hints that the relationship between weight and height
 is steeper in 2010; a formal statistical analysis is required for
@@ -643,7 +653,7 @@ square root of Weight and Height in each year.</p>
 <span><span class="co">## Warning: Removed 104 rows containing non-finite values</span></span>
 <span><span class="co">## (`stat_smooth()`).</span></span>
 <span><span class="co">## Warning: Removed 104 rows containing missing values (`geom_point()`).</span></span></code></pre></div>
-<p><img src="day_2_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
+<p><img src="day_2_files/figure-html/unnamed-chunk-38-1.png" width="700"></p>
 <p>How would we calculate this regression, and assess its significance?
 We focus on Male 2010 data.</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
@@ -974,7 +984,7 @@ amount).</p>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">.2</span><span class="op">)</span></span>
 <span><span class="co">## Warning: Removed 2 rows containing non-finite values (`stat_boxplot()`).</span></span>
 <span><span class="co">## Warning: Removed 2 rows containing missing values (`geom_point()`).</span></span></code></pre></div>
-<p><img src="day_2_files/figure-html/unnamed-chunk-54-1.png" width="700"></p>
+<p><img src="day_2_files/figure-html/unnamed-chunk-55-1.png" width="700"></p>
 <p>The following table counts the number of ‘BCR/ABL’ and ‘NEG’ among
 ‘Female’ and ‘Male’ samples; it seems like there is a disproportionate
 number of ‘Male’ ‘NEG’ (chromosomally normal) individuals.</p>
@@ -1096,7 +1106,7 @@ this document</p>
 <span><span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] ggplot2_3.4.4     dplyr_1.1.4       RPG520_0.0.0.9007</span></span>
+<span><span class="co">## [1] ggplot2_3.4.4 dplyr_1.1.4  </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
 <span><span class="co">##  [1] sass_0.4.8        utf8_1.2.4        generics_0.1.3    tidyr_1.3.1      </span></span>
@@ -1105,7 +1115,7 @@ this document</p>
 <span><span class="co">## [13] Matrix_1.6-1.1    jsonlite_1.8.8    mgcv_1.9-0        purrr_1.0.2      </span></span>
 <span><span class="co">## [17] fansi_1.0.6       scales_1.3.0      textshaping_0.3.7 jquerylib_0.1.4  </span></span>
 <span><span class="co">## [21] cli_3.6.2         rlang_1.1.3       crayon_1.5.2      splines_4.3.2    </span></span>
-<span><span class="co">## [25] munsell_0.5.0     bit64_4.0.5       withr_3.0.0       cachem_1.0.8     </span></span>
+<span><span class="co">## [25] bit64_4.0.5       munsell_0.5.0     withr_3.0.0       cachem_1.0.8     </span></span>
 <span><span class="co">## [29] yaml_2.3.8        tools_4.3.2       parallel_4.3.2    tzdb_0.4.0       </span></span>
 <span><span class="co">## [33] memoise_2.0.1     colorspace_2.1-0  vctrs_0.6.5       R6_2.5.1         </span></span>
 <span><span class="co">## [37] lifecycle_1.0.4   stringr_1.5.1     fs_1.6.3          bit_4.0.5        </span></span>
