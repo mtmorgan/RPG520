@@ -14,9 +14,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, message = FALSE}
-library(RPG520)
-```
+1. Log on to <https://ondemand.ccr.buffalo.edu>
+
+2. Set up *RStudio* for today
+
+    ```{r, eval = FALSE}
+    source('/projects/rpci/rplect/Rpg520/Rsetdirs.R')
+    ```
+
+3. Let *RStudio* know about your new working directory
+
+    <img src='images/rstudio-config.png'>
 
 # Introduction
 

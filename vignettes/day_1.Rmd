@@ -28,7 +28,7 @@ network: <https://ondemand.ccr.buffalo.edu>
 <img src='images/login.png'>
 
 [appendix]: z_appendix.html
-o
+
 ## From CCR to RStudio
 
 1. Use your browser to navigate to
