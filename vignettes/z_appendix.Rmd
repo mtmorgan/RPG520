@@ -171,3 +171,110 @@ Or downloaded to disk for easy re-use
 ```{r, eval = FALSE}
 download.file(ALL_url, "ALL.csv")
 ```
+
+# Questions arising
+
+## 'tidy' versus 'wide' data
+
+Suppose you observed tumor weight on 5 mice over 3 weeks. You could
+represent this data as a `tibble` / `data.frame` with columns 'mouse',
+'week', 'tumor\_weight'.
+
+```{r tidy, message = FALSE}
+library(dplyr)
+tbl <- tibble(
+    mouse = rep(LETTERS[1:5], each = 3),
+    week = rep(1:3, times = 5),
+    tumor_weight = runif(15)
+)
+tbl
+```
+
+Each row represents an *observation*. Each column represents a
+*variable*. Each combination of 'mouse' and 'week' is associated with
+an *observation* of 'tumor_weight`. **Tidy data simplifies data
+management** and we use it throughout the workshop. For instance, it's
+easy to compute the average tumor weight each week
+
+```{r tidy_avg_wt}
+tbl |>
+    group_by(week) |>
+    summarize(n_mice = n(), av_wt = mean(tumor_weight))
+```
+
+Or to add another observation, e.g., `mouse_weight`
+
+```{r tidy_mutate}
+tbl |>
+    mutate(mouse_weight = 5 + rnorm(15))
+```
+
+This data could be repsented in a 'wide' format, e.g.,
+
+```{r wide}
+tbl |>
+    tidyr::pivot_wider(
+               names_from = "week", names_prefix = "week_",
+               values_from = "tumor_weight"
+           )
+```
+
+This representation might be useful for summary in a paper or
+presentation, but it is less easy to manipulate, e.g., what is the
+average tumor weight each week? how can we add 'mouse\_weight` to this
+data?
+               
+The [tidyr vignette][tidyr-vignette] provides a more detailed
+discussion of these issues.
+
+[tidyr-vignette]: https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html
+
+## *R*-flavored markdown
+
+Markdown is a great plain-text format for writing documents and
+reports. *R*-flavored markdown allows *R* code 'chunks' to be embedded
+in the markdown document. The document can then be processed to, e.g.,
+plain markdown or html or slides to share with others. During
+processing the *R* code chunks are evaluated. This means that you can
+can describe what and why you're doing something, then show what you
+actually did, and present figures or tables summarizing your
+results. This is a great tool for reproducible, communicable research.
+
+An easy way to start is to use the 'File -> New File -> R Markdown...'
+menu in *RStudio*. This generates a demonstration document that you
+can tweak and explore. Build it to HTML by pressing the 'knit...'
+button on the markdown document pane. A [cheat
+sheet][rmarkdown-cheatsheet] provides some further hints. Ask Google
+for additional questions.
+
+[rmarkdown-cheatsheet]: https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf
+
+## Creating an *R* package
+
+An *R* package can be a great way to bundle an analysis into a
+reproducible unit, or to share new analysis methods you've developed
+with colleagues.
+
+I asked ChatGPT to tell me how to 'create an *R* package using
+devtools, usethis, and roxygen2', and got a pretty good starting point
+-- give it a try! The package I mentioned in my query are
+
+- [devtools][]: use `create()` to make a package skeleton,
+  `load_all()` during package developement to load the current package
+  into your *R* session, `check()`, `build()`, and `install()` to
+  check that your package is syntactically correct, build it into a
+  'tar ball' for sharing with others, and install it in your *R*
+  library for subsequent use via `library(YourPackage)`.
+- [usethis][] for adding components to your package, e.g.,
+  `use_vignette()` to add a vigentte, `use_mit_license()` (for
+  instance) to add a license that indicates how you allow your package
+  to be used by others, etc.
+- [roxygen2][] for documenting functions in your package.
+
+Package vignettes (e.g., `vignette(package="roxygen2")`) and Google
+are great resources during package development.
+
+[devtools]: https://CRAN.R-project.org/package=devtools
+[usethis]: https://CRAN.R-project.org/package=usethis
+[roxygen2]: https://CRAN.R-project.org/package=roxygen2
+
