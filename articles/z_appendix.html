@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">RPG520</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9009</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -221,6 +221,153 @@ Thus the ALL dataset is available at</p>
 <p>Or downloaded to disk for easy re-use</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span><span class="va">ALL_url</span>, <span class="st">"ALL.csv"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="questions-arising">Questions arising<a class="anchor" aria-label="anchor" href="#questions-arising"></a>
+</h2>
+<div class="section level3">
+<h3 id="tidy-versus-wide-data">‘tidy’ versus ‘wide’ data<a class="anchor" aria-label="anchor" href="#tidy-versus-wide-data"></a>
+</h3>
+<p>Suppose you observed tumor weight on 5 mice over 3 weeks. You could
+represent this data as a <code>tibble</code> / <code>data.frame</code>
+with columns ‘mouse’, ‘week’, ‘tumor_weight’.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="va">tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>    mouse <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span>
+<span>    week <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, times <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span>
+<span>    tumor_weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">tbl</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 15 × 3</span></span></span>
+<span><span class="co">##    mouse  week tumor_weight</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> A         1        0.411</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> A         2        0.511</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> A         3        0.707</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> B         1        0.940</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> B         2        0.146</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> B         3        0.282</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> C         1        0.988</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> C         2        0.598</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> C         3        0.501</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> D         1        0.362</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">11</span> D         2        0.406</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">12</span> D         3        0.325</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">13</span> E         1        0.859</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">14</span> E         2        0.305</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">15</span> E         3        0.223</span></span></code></pre></div>
+<p>Each row represents an <em>observation</em>. Each column represents a
+<em>variable</em>. Each combination of ‘mouse’ and ‘week’ is associated
+with an <em>observation</em> of ’tumor_weight`. <strong>Tidy data
+simplifies data management</strong> and we use it throughout the
+workshop. For instance, it’s easy to compute the average tumor weight
+each week</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tbl</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">week</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n_mice <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, av_wt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">tumor_weight</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
+<span><span class="co">##    week n_mice av_wt</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>     1      5 0.712</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span>     2      5 0.393</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>     3      5 0.408</span></span></code></pre></div>
+<p>Or to add another observation, e.g., <code>mouse_weight</code></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tbl</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>mouse_weight <span class="op">=</span> <span class="fl">5</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 15 × 4</span></span></span>
+<span><span class="co">##    mouse  week tumor_weight mouse_weight</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> A         1        0.411         7.83</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> A         2        0.511         3.54</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> A         3        0.707         4.15</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> B         1        0.940         5.33</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> B         2        0.146         5.95</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> B         3        0.282         6.77</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> C         1        0.988         4.86</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> C         2        0.598         4.71</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> C         3        0.501         4.49</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> D         1        0.362         4.16</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">11</span> D         2        0.406         4.05</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">12</span> D         3        0.325         4.54</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">13</span> E         1        0.859         5.88</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">14</span> E         2        0.305         5.64</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">15</span> E         3        0.223         4.37</span></span></code></pre></div>
+<p>This data could be repsented in a ‘wide’ format, e.g.,</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tbl</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span></span>
+<span>               names_from <span class="op">=</span> <span class="st">"week"</span>, names_prefix <span class="op">=</span> <span class="st">"week_"</span>,</span>
+<span>               values_from <span class="op">=</span> <span class="st">"tumor_weight"</span></span>
+<span>           <span class="op">)</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 5 × 4</span></span></span>
+<span><span class="co">##   mouse week_1 week_2 week_3</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> A      0.411  0.511  0.707</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> B      0.940  0.146  0.282</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> C      0.988  0.598  0.501</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> D      0.362  0.406  0.325</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> E      0.859  0.305  0.223</span></span></code></pre></div>
+<p>This representation might be useful for summary in a paper or
+presentation, but it is less easy to manipulate, e.g., what is the
+average tumor weight each week? how can we add ’mouse_weight` to this
+data?</p>
+<p>The <a href="https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html" class="external-link">tidyr
+vignette</a> provides a more detailed discussion of these issues.</p>
+</div>
+<div class="section level3">
+<h3 id="r-flavored-markdown">
+<em>R</em>-flavored markdown<a class="anchor" aria-label="anchor" href="#r-flavored-markdown"></a>
+</h3>
+<p>Markdown is a great plain-text format for writing documents and
+reports. <em>R</em>-flavored markdown allows <em>R</em> code ‘chunks’ to
+be embedded in the markdown document. The document can then be processed
+to, e.g., plain markdown or html or slides to share with others. During
+processing the <em>R</em> code chunks are evaluated. This means that you
+can can describe what and why you’re doing something, then show what you
+actually did, and present figures or tables summarizing your results.
+This is a great tool for reproducible, communicable research.</p>
+<p>An easy way to start is to use the ‘File -&gt; New File -&gt; R
+Markdown…’ menu in <em>RStudio</em>. This generates a demonstration
+document that you can tweak and explore. Build it to HTML by pressing
+the ‘knit…’ button on the markdown document pane. A <a href="https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf" class="external-link">cheat
+sheet</a> provides some further hints. Ask Google for additional
+questions.</p>
+</div>
+<div class="section level3">
+<h3 id="creating-an-r-package">Creating an <em>R</em> package<a class="anchor" aria-label="anchor" href="#creating-an-r-package"></a>
+</h3>
+<p>An <em>R</em> package can be a great way to bundle an analysis into a
+reproducible unit, or to share new analysis methods you’ve developed
+with colleagues.</p>
+<p>I asked ChatGPT to tell me how to ‘create an <em>R</em> package using
+devtools, usethis, and roxygen2’, and got a pretty good starting point –
+give it a try! The package I mentioned in my query are</p>
+<ul>
+<li>
+<a href="https://CRAN.R-project.org/package=devtools" class="external-link">devtools</a>:
+use <code>create()</code> to make a package skeleton,
+<code>load_all()</code> during package developement to load the current
+package into your <em>R</em> session, <code>check()</code>,
+<code>build()</code>, and <code>install()</code> to check that your
+package is syntactically correct, build it into a ‘tar ball’ for sharing
+with others, and install it in your <em>R</em> library for subsequent
+use via <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library(YourPackage)</a></code>.</li>
+<li>
+<a href="https://CRAN.R-project.org/package=usethis" class="external-link">usethis</a> for
+adding components to your package, e.g., <code>use_vignette()</code> to
+add a vigentte, <code>use_mit_license()</code> (for instance) to add a
+license that indicates how you allow your package to be used by others,
+etc.</li>
+<li>
+<a href="https://CRAN.R-project.org/package=roxygen2" class="external-link">roxygen2</a>
+for documenting functions in your package.</li>
+</ul>
+<p>Package vignettes (e.g., <code>vignette(package="roxygen2")</code>)
+and Google are great resources during package development.</p>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
