@@ -27,6 +27,9 @@ network: <https://ondemand.ccr.buffalo.edu>
 
 <img src='images/login.png'>
 
+The next screen will ask for your UB password, and two-factor
+authentication.
+
 [appendix]: z_appendix.html
 
 ## From CCR to RStudio
@@ -71,6 +74,12 @@ source('/projects/rpci/rplect/Rpg520/Rsetdirs.R')
 ```
 
    <img src='images/rstudio.png'>
+
+Finally, tell *RStudio* about the changes made by the previous command
+by navigating to the lower-right panel, choosing the 'gear' widget',
+and selecting 'Go To Working Directory', as in the following figure
+
+   <img src='images/rstudio-config.png'>
 
 OK, we are ready to go!
 
