@@ -1,6 +1,6 @@
 Package: RPG520
 Title: Course Material for Principles of Computational Oncology R / Bioconductor Workshop
-Version: 0.0.0.9010
+Version: 0.0.0.9011
 Authors@R: c(
     person(
         "Martin", "Morgan", role = c("aut", "cre"),
