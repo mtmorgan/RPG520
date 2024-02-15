@@ -209,7 +209,8 @@ tbl |>
     mutate(mouse_weight = 5 + rnorm(15))
 ```
 
-This data could be repsented in a 'wide' format, e.g.,
+Our original data on `tumor\_weight` could be represented in a 'wide'
+format, e.g.,
 
 ```{r wide}
 tbl |>

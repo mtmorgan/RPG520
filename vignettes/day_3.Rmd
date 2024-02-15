@@ -40,7 +40,7 @@ This case study illustrates how *R* can be used to understand
 single-cell RNAseq data, assuming that the 'heavy lifting' of
 transforming raw FASTQ files to normalized matrices of counts
 measuring expression of each gene in each cell has been done by, e.g.,
-a bioinformatics core. _R_ can be used to summarize biological sample
+a bioinformatics core. *R* can be used to summarize biological sample
 and cell attributes, e.g., the number of donors and cells per
 donor. Visualizations like UMAP plots showing cell expression patterns
 in two-dimensional space can be easily generated and
@@ -48,6 +48,22 @@ annotated. Individual genes can be annotated with additional
 information, e.g., with a description of the gene or of the genes in
 particular pathways. The next article introduces more comprehensive
 work flows.
+
+The data set come from the [CELLxGENE][] data portal. The [dataset][]
+is of breast epithelial cells. The dataset is relatively typical of
+single-cell experimental data sets likely to be generated in
+individual research projects. The data were downloaded using the
+[cellxgenedp][] pacakge, with information extracted from the file
+using the [zellkonverter][] and [rhdf5][] packages. All of these
+packages are available through [Bioconductor][], and have vignettes
+describing their use.
+
+[CELLxGENE]: https://cellxgene.cziscience.com/datasets
+[dataset]: https://cellxgene.cziscience.com/collections/c9706a92-0e5f-46c1-96d8-20e42467f287
+[cellxgenedp]: https://bioconductor.org/packages/cellxgenedp
+[zellkonverter]: https://bioconductor.org/packages/zellkonverter
+[rhdf5]: https://bioconductor.org/packages/rhdf5
+[Bioconductor]: https://bioconductor.org
 
 ## Input
 
