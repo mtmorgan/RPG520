@@ -91,6 +91,8 @@ like to install <em>R</em> and <em>RStudio</em> on your own laptop.</p>
 <p>Visit and sign in, using your UB id, from a Roswell Park or UB
 network: <a href="https://ondemand.ccr.buffalo.edu" class="external-link uri">https://ondemand.ccr.buffalo.edu</a></p>
 <p><img src="images/login.png"></p>
+<p>The next screen will ask for your UB password, and two-factor
+authentication.</p>
 <div class="section level3">
 <h3 id="from-ccr-to-rstudio">From CCR to RStudio<a class="anchor" aria-label="anchor" href="#from-ccr-to-rstudio"></a>
 </h3>
@@ -140,6 +142,11 @@ the following line into the ‘Console’</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">'/projects/rpci/rplect/Rpg520/Rsetdirs.R'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="images/rstudio.png"></p>
+<p>Finally, tell <em>RStudio</em> about the changes made by the previous
+command by navigating to the lower-right panel, choosing the ‘gear’
+widget’, and selecting ‘To To Working Directory’, as in the following
+figure</p>
+<p><img src="images/rstudio-config.png"></p>
 <p>OK, we are ready to go!</p>
 </div>
 </div>
@@ -192,7 +199,7 @@ columns</li>
 <p>Functions</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>        <span class="co"># 5 random normal deviates</span></span>
-<span><span class="co">## [1] -1.3691025  1.4485220  0.3218323 -0.7002913 -0.4268413</span></span>
+<span><span class="co">## [1]  0.4358899  0.7731214 -1.1141203  1.8189854  0.7437138</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span> <span class="co"># 100 random normal deviates</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>         <span class="co"># histogram, approximately normal</span></span></code></pre></div>
 <p><img src="day_1_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
@@ -215,12 +222,12 @@ rows.</p>
 <span><span class="co">## [1] 100</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
 <span><span class="co">##             x          y</span></span>
-<span><span class="co">## 1 -1.05818983 -0.6941686</span></span>
-<span><span class="co">## 2 -0.29930736 -1.2526208</span></span>
-<span><span class="co">## 3  0.46253757  1.3784444</span></span>
-<span><span class="co">## 4  1.09723087  1.3534502</span></span>
-<span><span class="co">## 5 -1.58288419 -2.3436831</span></span>
-<span><span class="co">## 6  0.02867681 -0.4003293</span></span></code></pre></div>
+<span><span class="co">## 1 -0.08611579 -0.1827131</span></span>
+<span><span class="co">## 2  0.72004573  1.8425471</span></span>
+<span><span class="co">## 3 -0.89714302 -3.7447888</span></span>
+<span><span class="co">## 4 -0.58975348 -2.9765002</span></span>
+<span><span class="co">## 5 -0.90902323  0.2149354</span></span>
+<span><span class="co">## 6  2.73396718  3.8888227</span></span></code></pre></div>
 <p>There is a statistical relationship between <code>y</code> and
 <code>x</code>, specifically, <code>y</code> is equal to <code>x</code>
 plus some random noise. Visualize this using <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>.</p>
@@ -240,7 +247,7 @@ statistically? Use the <code><a href="https://rdrr.io/r/stats/lm.html" class="ex
 <span><span class="co">## </span></span>
 <span><span class="co">## Coefficients:</span></span>
 <span><span class="co">## (Intercept)            x  </span></span>
-<span><span class="co">##    -0.07972      0.97353</span></span>
+<span><span class="co">##      -0.151        1.299</span></span>
 <span>              <span class="co"># regression of y on x</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>  <span class="co"># statistical summary of linear regression</span></span>
 <span><span class="co">## </span></span>
@@ -248,19 +255,19 @@ statistically? Use the <code><a href="https://rdrr.io/r/stats/lm.html" class="ex
 <span><span class="co">## lm(formula = y ~ x, data = df)</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Residuals:</span></span>
-<span><span class="co">##     Min      1Q  Median      3Q     Max </span></span>
-<span><span class="co">## -2.5705 -0.9025  0.1090  0.7169  2.9564 </span></span>
+<span><span class="co">##      Min       1Q   Median       3Q      Max </span></span>
+<span><span class="co">## -2.42804 -0.60791  0.04296  0.68300  2.85870 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Coefficients:</span></span>
 <span><span class="co">##             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span><span class="co">## (Intercept) -0.07972    0.10998  -0.725     0.47    </span></span>
-<span><span class="co">## x            0.97353    0.10577   9.204 6.45e-15 ***</span></span>
+<span><span class="co">## (Intercept)  -0.1510     0.1024  -1.474    0.144    </span></span>
+<span><span class="co">## x             1.2994     0.1063  12.228   &lt;2e-16 ***</span></span>
 <span><span class="co">## ---</span></span>
 <span><span class="co">## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Residual standard error: 1.091 on 98 degrees of freedom</span></span>
-<span><span class="co">## Multiple R-squared:  0.4637, Adjusted R-squared:  0.4582 </span></span>
-<span><span class="co">## F-statistic: 84.72 on 1 and 98 DF,  p-value: 6.454e-15</span></span></code></pre></div>
+<span><span class="co">## Residual standard error: 1.024 on 98 degrees of freedom</span></span>
+<span><span class="co">## Multiple R-squared:  0.6041, Adjusted R-squared:    0.6 </span></span>
+<span><span class="co">## F-statistic: 149.5 on 1 and 98 DF,  p-value: &lt; 2.2e-16</span></span></code></pre></div>
 <p>What about adding the regression line to the scatter plot? Do this by
 plotting the points, and then adding <code><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline()</a></code> to add the
 straight line implied by the linear model fit.</p>
@@ -303,7 +310,7 @@ straight line implied by the linear model fit.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Coefficients:</span></span>
 <span><span class="co">## (Intercept)            x  </span></span>
-<span><span class="co">##    -0.07972      0.97353</span></span></code></pre></div>
+<span><span class="co">##      -0.151        1.299</span></span></code></pre></div>
 <p>… or a package contributed by users to the Comprehensive R Archive
 Network (<a href="https://CRAN.R-project.org" class="external-link">CRAN</a>), or to <a href="https://bioconductor.org" class="external-link">Bioconductor</a> or other
 repositories.</p>
@@ -336,18 +343,18 @@ contributed CRAN package, load the package</p>
 <span></span>
 <span><span class="va">tbl</span> <span class="co"># e.g., only displays the first 10 rows</span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 100 × 2</span></span></span>
-<span><span class="co">##         x        y</span></span>
-<span><span class="co">##     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">0.820</span> -<span style="color: #BB0000;">1.76</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> -<span style="color: #BB0000;">0.474</span> -<span style="color: #BB0000;">0.815</span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">1.38</span>  -<span style="color: #BB0000;">1.68</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">1.34</span>   0.005<span style="text-decoration: underline;">05</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> -<span style="color: #BB0000;">0.364</span> -<span style="color: #BB0000;">0.872</span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">0.432</span> -<span style="color: #BB0000;">2.23</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  2.39   3.23   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  0.307  0.816  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> -<span style="color: #BB0000;">0.515</span> -<span style="color: #BB0000;">0.830</span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">0.134</span> -<span style="color: #BB0000;">0.297</span>  </span></span>
+<span><span class="co">##         x       y</span></span>
+<span><span class="co">##     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">2.32</span>  -<span style="color: #BB0000;">2.20</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>  0.549 -<span style="color: #BB0000;">1.08</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">0.969</span> -<span style="color: #BB0000;">2.21</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>  0.963  0.426 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  0.282  0.086<span style="text-decoration: underline;">8</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  1.63   0.498 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> -<span style="color: #BB0000;">0.706</span> -<span style="color: #BB0000;">2.66</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  0.738  1.82  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  0.504  0.995 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">0.676</span> -<span style="color: #BB0000;">1.20</span>  </span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 90 more rows</span></span></span></code></pre></div>
 <p>The <a href="https://CRAN.R-project.org/package=ggplot2" class="external-link">ggplot2</a>
 package is often used for visualizing data</p>
