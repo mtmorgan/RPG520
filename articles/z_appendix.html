@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">RPG520</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9010</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9011</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -242,21 +242,21 @@ with columns ‘mouse’, ‘week’, ‘tumor_weight’.</p>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 15 × 3</span></span></span>
 <span><span class="co">##    mouse  week tumor_weight</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> A         1        0.158</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> A         2        0.111</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> A         3        0.408</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> B         1        0.467</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> B         2        0.251</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> B         3        0.542</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> C         1        0.573</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> C         2        0.290</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> C         3        0.622</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> D         1        0.385</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">11</span> D         2        0.309</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">12</span> D         3        0.817</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">13</span> E         1        0.690</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">14</span> E         2        0.929</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">15</span> E         3        0.284</span></span></code></pre></div>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> A         1       0.104 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> A         2       0.167 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> A         3       0.629 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> B         1       0.449 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> B         2       0.129 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> B         3       0.495 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> C         1       0.323 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> C         2       0.611 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> C         3       0.206 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> D         1       0.089<span style="text-decoration: underline;">4</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">11</span> D         2       0.987 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">12</span> D         3       0.952 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">13</span> E         1       0.581 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">14</span> E         2       0.787 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">15</span> E         3       0.381</span></span></code></pre></div>
 <p>Each row represents an <em>observation</em>. Each column represents a
 <em>variable</em>. Each combination of ‘mouse’ and ‘week’ is associated
 with an <em>observation</em> of ’tumor_weight`. <strong>Tidy data
@@ -270,9 +270,9 @@ each week</p>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">##    week n_mice av_wt</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>     1      5 0.455</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span>     2      5 0.378</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>     3      5 0.535</span></span></code></pre></div>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>     1      5 0.309</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span>     2      5 0.536</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>     3      5 0.533</span></span></code></pre></div>
 <p>Or to add another observation, e.g., <code>mouse_weight</code></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tbl</span> <span class="op">|&gt;</span></span>
@@ -280,21 +280,21 @@ each week</p>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 15 × 4</span></span></span>
 <span><span class="co">##    mouse  week tumor_weight mouse_weight</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> A         1        0.158         5.35</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> A         2        0.111         4.43</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> A         3        0.408         4.44</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> B         1        0.467         4.51</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> B         2        0.251         5.57</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> B         3        0.542         5.35</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> C         1        0.573         3.97</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> C         2        0.290         6.06</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> C         3        0.622         4.01</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> D         1        0.385         4.46</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">11</span> D         2        0.309         3.75</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">12</span> D         3        0.817         4.91</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">13</span> E         1        0.690         2.41</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">14</span> E         2        0.929         5.25</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">15</span> E         3        0.284         5.82</span></span></code></pre></div>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> A         1       0.104          4.51</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> A         2       0.167          4.93</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> A         3       0.629          5.23</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> B         1       0.449          4.51</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> B         2       0.129          4.65</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> B         3       0.495          5.19</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> C         1       0.323          4.83</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> C         2       0.611          5.35</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> C         3       0.206          4.71</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> D         1       0.089<span style="text-decoration: underline;">4</span>         4.83</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">11</span> D         2       0.987          4.98</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">12</span> D         3       0.952          4.16</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">13</span> E         1       0.581          5.60</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">14</span> E         2       0.787          4.33</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">15</span> E         3       0.381          3.07</span></span></code></pre></div>
 <p>Our original data on <code>tumor\_weight</code> could be represented
 in a ‘wide’ format, e.g.,</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -306,11 +306,11 @@ in a ‘wide’ format, e.g.,</p>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 5 × 4</span></span></span>
 <span><span class="co">##   mouse week_1 week_2 week_3</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> A      0.158  0.111  0.408</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> B      0.467  0.251  0.542</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> C      0.573  0.290  0.622</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> D      0.385  0.309  0.817</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span> E      0.690  0.929  0.284</span></span></code></pre></div>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> A     0.104   0.167  0.629</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> B     0.449   0.129  0.495</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> C     0.323   0.611  0.206</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> D     0.089<span style="text-decoration: underline;">4</span>  0.987  0.952</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> E     0.581   0.787  0.381</span></span></code></pre></div>
 <p>This representation might be useful for summary in a paper or
 presentation, but it is less easy to manipulate, e.g., what is the
 average tumor weight each week? how can we add ’mouse_weight` to this
