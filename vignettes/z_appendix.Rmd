@@ -230,6 +230,56 @@ discussion of these issues.
 
 [tidyr-vignette]: https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html
 
+## Coloring points in ggplot
+
+Here's a simple dataset showing the relationship between miles per
+gallon 'mpg' and displacement 'disp' with points colored by
+transmission ('am', 0 is automatic, 1 is manual; using `factor(am)`
+turns the continuous variable into a factor, and factors are colored
+using 'qualitative' color schemes, rather than 'quantitative' color
+schemes)
+
+```{r, message = FALSE}
+library(ggplot2)
+plt <-
+    ggplot(mtcars) +
+    aes(x = disp, y = mpg, color = factor(am)) +
+    geom_point()
+plt
+```
+
+Suppose we'd like to color the points differently, say 'red' for
+automatic and 'black' for manual transmissions. A little googling took
+me to add another layer
+
+```{r}
+plt +
+    scale_color_manual(values = c("red", "black"))
+```
+
+The values can be named colors as above, or 'RBG' values. As mentioned
+in class, the color choice is not arbitrary, but rather carefully
+considered. The [RColorBrewer][] package includes palettes of
+carefully considered colors. Here are colorblind-friendly palettes for
+'qualitative' data
+
+```{r}
+RColorBrewer::display.brewer.all(type = "qual", colorblindFriendly=TRUE)
+```
+
+We can use the 'Paired' scheme, for instance, with
+
+```{r}
+plt +
+    scale_color_brewer(type = "qual", palette = "Paired")
+```
+
+The help page `?scale_color_manual` provides additional detail on both
+how and why to color points. The [R Graph Gallery][rgg] is a useful
+resource for further information.
+
+[rgg]: https://r-graph-gallery.com/ggplot2-color.html
+
 ## *R*-flavored markdown
 
 Markdown is a great plain-text format for writing documents and
