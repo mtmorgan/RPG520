@@ -230,6 +230,156 @@ discussion of these issues.
 
 [tidyr-vignette]: https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html
 
+## Minimum *p* values?
+
+Tracking this down requires some pretty expert *R* knowledge. TL;DR is
+that *R* does actually report small *p* values as '< 2.2e-16'. The
+actual *p* value is available from the object returned by, e.g.,
+`t.test()`.
+
+It was noted during the workshop that 'all our P-values seem to be <
+2.2e-16, is this some minimum enforced by *R*?'. For example we read
+in the 'brfss' data, made 'Sex' and 'Year' factors, then created two
+subsets, for samples from 2010 and for Male samples from both years.
+
+```{r brfss, message = FALSE, echo = FALSE}
+library(dplyr)
+file <- system.file(package = "RPG520", "extdata", "BRFSS-subset.csv")
+brfss <-
+    readr::read_csv(file) |>
+    mutate(
+        Sex = factor(Sex, levels = c("Female", "Male")),
+        Year = factor(Year, levels = c("1990", "2010"))
+    )
+brfss_2010 <-
+    brfss |>
+    filter(Year == "2010")
+brfss_male <-
+    brfss |>
+    filter(Sex == "Male")
+```
+
+Performing a *t*-test to ask whether males differed in weight between
+years leads to
+
+```{r}
+t.test(Weight ~ Year, brfss_male)
+```
+
+The output says 'p-value < 2.2e-16'. We see the same *p*-value when
+performing a regression of Weight on Height in the 2010 Male sample
+
+```{r}
+brfss_male_2010 <-
+    brfss_male |>
+    filter(Year == "2010")
+fit <- lm(Weight ~ Height, brfss_male_2010)
+anova(fit)
+```
+
+(Maybe it's reassuring to note that the *p*-value isn't always '<
+2.2e-16', e.g., when comparing the age of Male and Female respondents
+in 2010)
+
+```{r}
+t.test(Age ~ Sex, brfss_2010)
+```
+
+Emily noted that we can assign the result of `t.test()` or `anova()`
+to a variable, and then use `$` to extract the *p*-value, e.g.,
+
+```{r}
+tt <- t.test(Weight ~ Year, brfss_male)
+tt$p.value
+```
+
+The *p*-value extracted from `tt` is indeed less than 2.2e-16 so the
+`t.test()` printout is not lying. But why 2.2e-16?
+
+I looked at the help pages `?t.test` and `?lm` and didn't see anything
+that looked helpful. I then used some expert *R* knowledge to try and
+dig a bit further. I know that a variable has a 'class', and that
+there are 'methods' that operate on classes, and that when a variable
+is printed, it actually might involve a 'print' method or perhaps a
+'format' method. OK, so what is the class of `tt`?
+
+```{r}
+class(tt)
+```
+
+And what methods are defined on an object of class 'htest'?
+
+```{r}
+methods(class = "htest")
+```
+
+Again using expert *R* knowledge, I know that the 'print' method on an
+object of class 'htest' is the function `print.htest` and I looked up
+the help `?print.htest`. This was not helpful. So I looked at the
+function definition for `print.htest` with
+
+```{r}
+getAnywhere(print.htest)
+```
+
+This is the function that is used to print the result returned by
+`t.test()`. I scanned the code looking for 'p-value', and spotted the
+lines
+
+```{r, eval = FALSE}
+    if (!is.null(x$p.value)) {
+        fp <- format.pval(x$p.value, digits = max(1L, digits - 
+            3L))
+```
+
+this says 'if the object I am trying to print includes a p.value, then
+use the function `format.pval()` to format the *p*-value for
+output'. OK, so off to `?format.pval`. The help page is actually
+helpful, in a way. It says that `format.pval` takes an argument `eps`,
+and that values
+
+```
+    less than 'eps' are formatted as '"< [eps]"'
+```
+
+Also, the help page says that `eps` has a default value
+
+```{r}
+.Machine$double.eps
+```
+
+Aha! Our magic 2.2e-16! The help page `?.Machine` is also helpful-ish,
+with the description
+
+```
+double.eps: the smallest positive floating-point number 'x' such that
+          '1 + x != 1'.  It equals 'double.base ^ ulp.digits' if either
+          'double.base' is 2 or 'double.rounding' is 0; otherwise, it
+          is '(double.base ^ double.ulp.digits) / 2'.  Normally
+          '2.220446e-16'.
+```
+
+This is getting at a fundamental challenge in digital computers --
+numbers are represented as a sequence of bits (0 and 1 values). This
+means that floating point (non-integer) numbers are only represented
+approximately -- for a given number of bits used to represent a
+floating point number, there is a smallest difference that can be
+represented without loss of precision. What `.Machine$double.eps` is
+reporting is the smallest difference that our particular computer,
+using whatever rules it uses to decide on how many bits to use for a
+floating-point number, can actually represent such that `1 + x != 1`. 
+Most computers adopt the same convention for representing floating
+point numbers, so usually `.Machine$double.eps` is 2.2e-16.
+
+`format.pval()` is saying that it can't really tell the difference
+between very small numbers, all it can know for certain is that the
+very small number is smaller than the smallest number it can
+distinguish -- `r format(tt$p.value)` is definitely less than 
+`r format(.Machine$double.eps)`, but how much less is not known with any
+accuracy.
+
+Phew.
+
 ## Coloring points in ggplot
 
 Here's a simple dataset showing the relationship between miles per
