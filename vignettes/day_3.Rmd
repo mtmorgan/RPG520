@@ -58,6 +58,10 @@ using the [zellkonverter][] and [rhdf5][] packages. All of these
 packages are available through [Bioconductor][], and have vignettes
 describing their use.
 
+The main outcome of this case study is an interactive scatter plot;
+most of the data input, cleaning and visualization steps are similar
+to Day 2.
+
 [CELLxGENE]: https://cellxgene.cziscience.com/datasets
 [dataset]: https://cellxgene.cziscience.com/collections/c9706a92-0e5f-46c1-96d8-20e42467f287
 [cellxgenedp]: https://bioconductor.org/packages/cellxgenedp
@@ -171,6 +175,10 @@ These notes are from an online tutorial by Emily C. Zabor called
 [Survival Analysis in R][SAR]. In addition to [dplyr][] and
 [ggplot2][], we use the specialized packages [survival][] and
 [ggsurvfit][].
+
+The main purpose of this case study is to introduce a statisitcal
+analysis that is common in oncology-related studies, and more nuanced
+than familiar statistics like a *t*-test or linear regression.
 
 ```{r, message = FALSE}
 library(dplyr)

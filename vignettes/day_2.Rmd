@@ -32,11 +32,20 @@ We use two case studies today. The studies are used to illustrate the
 data manipulation and statistical analysis tasks that one might expect
 in day-to-day wet- or dry-lab work in computational oncology.
 
-We will use functions from the [dplyr][] package to manage our
-data. [dplyr][] is is a key package in a particular approach to data
-management in *R* called the 'tidyverse'. Tidy analysis uses a
-standard data structure (a `tibble`) and relatively small number
-functions to provide an effective way to accomplish many tasks.
+# US CDC Behavioral Risk Factor Surveillance System survey data
+
+We use data from the US Center for Disease Control's Behavioral Risk
+Factor Surveillance System ([BRFSS][]) annual survey. Check out the
+web page for a little more information. We are using a small subset of
+this data, including a random sample of 20000 observations from each
+of 1990 and 2010.
+
+In this first case study, We will use functions from the [dplyr][]
+package to manage our data. [dplyr][] is is a key package in a
+particular approach to data management in *R* called the
+'tidyverse'. Tidy analysis uses a standard data structure (a `tibble`)
+and relatively small number functions to provide an effective way to
+accomplish many tasks.
 
 Start by loading the [dplyr][] package.
 
@@ -75,14 +84,6 @@ distributed with *R*.
 [tidyr]: https://CRAN.R-project.org/package=tidyr
 [readr]: https://CRAN.R-project.org/package=readr
 [ggplot2]: https://CRAN.R-project.org/package=ggplot2
-
-# US CDC Behavioral Risk Factor Surveillance System survey data
-
-We use data from the US Center for Disease Control's Behavioral Risk
-Factor Surveillance System ([BRFSS][]) annual survey. Check out the
-web page for a little more information. We are using a small subset of
-this data, including a random sample of 20000 observations from each
-of 1990 and 2010.
 
 ## Data input
 
@@ -436,6 +437,14 @@ This section illustrates basic statistical tests; it would be
 interesting to sit down with a statistician to discuss the subtleties
 of a more correct analysis.
 
+We will explroe base *R* functions
+
+- `t.test()` for performing two-sample *t*-tests.
+- `wilcox.test()`, a non-parametric two-sample test.
+- `lm()` to fit a linear model (regression).
+- `summary()` to summarize the result of the linear model as an ANOVA
+  table with *R*-squared measures summarizing goodness of fit.
+
 ### Difference between groups
 
 Here is a partial summary of the `brfss_2010` data subset
@@ -557,6 +566,17 @@ This data set is from an old microarray experiment investigating acute
 lymphocytic leukemia (ALL) (PMID [14684422][], [16243790][]; the data
 has been extracted from the [ALL][] *Bioconductor* package).  We focus
 on phenotypes of 128 patients.
+
+We use many of the sample [dplyr][] functions as in the BRFSS data
+set, but encounter a number of new *R* functions useful for specific
+tasks.
+
+- `ifelse()` to compose a new vector based on values in a logical
+  vector.
+- `startsWith()` to test whether each element of a character vector
+  starts with a particular prefix.
+- `%in%`, used as `lhs %in% rhs` asks whether each element in the
+  vector `lhs` is a member of the vector `rhs`.
 
 [14684422]: https://doi.org/10.1182/blood-2003-09-3243
 [16243790]: https://doi.org/10.1158/1078-0432.ccr-04-2165
