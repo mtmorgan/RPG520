@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">RPG520</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9013</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9014</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,7 +98,16 @@
 <p>We use two case studies today. The studies are used to illustrate the
 data manipulation and statistical analysis tasks that one might expect
 in day-to-day wet- or dry-lab work in computational oncology.</p>
-<p>We will use functions from the <a href="https://CRAN.R-project.org/package=dplyr" class="external-link">dplyr</a> package to
+</div>
+<div class="section level2">
+<h2 id="us-cdc-behavioral-risk-factor-surveillance-system-survey-data">US CDC Behavioral Risk Factor Surveillance System survey data<a class="anchor" aria-label="anchor" href="#us-cdc-behavioral-risk-factor-surveillance-system-survey-data"></a>
+</h2>
+<p>We use data from the US Center for Disease Control’s Behavioral Risk
+Factor Surveillance System (<a href="http://www.cdc.gov/brfss/" class="external-link">BRFSS</a>) annual survey. Check out the
+web page for a little more information. We are using a small subset of
+this data, including a random sample of 20000 observations from each of
+1990 and 2010.</p>
+<p>In this first case study, We will use functions from the <a href="https://CRAN.R-project.org/package=dplyr" class="external-link">dplyr</a> package to
 manage our data. <a href="https://CRAN.R-project.org/package=dplyr" class="external-link">dplyr</a> is is a key
 package in a particular approach to data management in <em>R</em> called
 the ‘tidyverse’. Tidy analysis uses a standard data structure (a
@@ -141,15 +150,6 @@ commonly, so we do not load them into our <em>R</em> session yet.</p>
 are provided below.</p>
 <p>Finally, for statistical functions we use the ‘stats’ package
 distributed with <em>R</em>.</p>
-</div>
-<div class="section level2">
-<h2 id="us-cdc-behavioral-risk-factor-surveillance-system-survey-data">US CDC Behavioral Risk Factor Surveillance System survey data<a class="anchor" aria-label="anchor" href="#us-cdc-behavioral-risk-factor-surveillance-system-survey-data"></a>
-</h2>
-<p>We use data from the US Center for Disease Control’s Behavioral Risk
-Factor Surveillance System (<a href="http://www.cdc.gov/brfss/" class="external-link">BRFSS</a>) annual survey. Check out the
-web page for a little more information. We are using a small subset of
-this data, including a random sample of 20000 observations from each of
-1990 and 2010.</p>
 <div class="section level3">
 <h3 id="data-input">Data input<a class="anchor" aria-label="anchor" href="#data-input"></a>
 </h3>
@@ -549,6 +549,20 @@ further confidence.</p>
 <p>This section illustrates basic statistical tests; it would be
 interesting to sit down with a statistician to discuss the subtleties of
 a more correct analysis.</p>
+<p>We will explroe base <em>R</em> functions</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">t.test()</a></code> for performing two-sample
+<em>t</em>-tests.</li>
+<li>
+<code><a href="https://rdrr.io/r/stats/wilcox.test.html" class="external-link">wilcox.test()</a></code>, a non-parametric two-sample test.</li>
+<li>
+<code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> to fit a linear model (regression).</li>
+<li>
+<code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> to summarize the result of the linear model
+as an ANOVA table with <em>R</em>-squared measures summarizing goodness
+of fit.</li>
+</ul>
 <div class="section level4">
 <h4 id="difference-between-groups">Difference between groups<a class="anchor" aria-label="anchor" href="#difference-between-groups"></a>
 </h4>
@@ -713,6 +727,21 @@ acute lymphocytic leukemia (ALL) (PMID <a href="https://doi.org/10.1182/blood-20
 data has been extracted from the <a href="https://bioconductor.org/packages/ALL" class="external-link">ALL</a>
 <em>Bioconductor</em> package). We focus on phenotypes of 128
 patients.</p>
+<p>We use many of the sample <a href="https://CRAN.R-project.org/package=dplyr" class="external-link">dplyr</a> functions as
+in the BRFSS data set, but encounter a number of new <em>R</em>
+functions useful for specific tasks.</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse()</a></code> to compose a new vector based on values in a
+logical vector.</li>
+<li>
+<code><a href="https://rdrr.io/r/base/startsWith.html" class="external-link">startsWith()</a></code> to test whether each element of a
+character vector starts with a particular prefix.</li>
+<li>
+<code>%in%</code>, used as <code>lhs %in% rhs</code> asks whether
+each element in the vector <code>lhs</code> is a member of the vector
+<code>rhs</code>.</li>
+</ul>
 <div class="section level3">
 <h3 id="data-input-1">Data input<a class="anchor" aria-label="anchor" href="#data-input-1"></a>
 </h3>
