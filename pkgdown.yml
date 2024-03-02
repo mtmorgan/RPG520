@@ -1,4 +1,4 @@
-pandoc: 2.19.2
+pandoc: 3.1.11
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
@@ -6,7 +6,7 @@ articles:
   day_2: day_2.html
   day_3: day_3.html
   z_appendix: z_appendix.html
-last_built: 2024-02-20T08:41Z
+last_built: 2024-03-02T15:55Z
 urls:
   reference: https://mtmorgan.github.io/RPG520/reference
   article: https://mtmorgan.github.io/RPG520/articles
